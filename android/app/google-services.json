@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "529127873351",
+    "project_id": "bet-it-f1612",
+    "storage_bucket": "bet-it-f1612.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529127873351:android:341926533c348a43610a62",
+        "android_client_info": {
+          "package_name": "fr.ynov"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529127873351-3rq5sgv346hmt8trtgpnflplm14css10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN1s97JwKGB0SyNQu32qEra29OINNH8Ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "529127873351-3rq5sgv346hmt8trtgpnflplm14css10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
