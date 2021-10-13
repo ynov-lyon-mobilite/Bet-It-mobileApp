@@ -31,8 +31,7 @@ dependencies:
     sdk: flutter
 
   lint: ^1.7.2
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  flutter_svg: ^0.23.0+1
   cupertino_icons: ^1.0.3
 
 dev_dependencies:
