@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>529127873351-49799m14l4tparg54m5oiv5beu3c3sg8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.529127873351-49799m14l4tparg54m5oiv5beu3c3sg8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDn9bZZ4Stj-cm3GNrAq1Qe1pUlB-_SMrM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>529127873351</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>fr.ynov</string>
+	<key>PROJECT_ID</key>
+	<string>bet-it-f1612</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bet-it-f1612.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:529127873351:ios:fd150e6e624638a1610a62</string>
+</dict>
+</plist>
