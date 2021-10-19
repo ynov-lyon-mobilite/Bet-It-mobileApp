@@ -33,6 +33,9 @@ dependencies:
   lint: ^1.7.2
   flutter_svg: ^0.23.0+1
   cupertino_icons: ^1.0.3
+  google_fonts: ^2.1.0
+  step_progress_indicator: ^1.0.1
+  ansicolor: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -51,3 +54,6 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/eSport.jpg
