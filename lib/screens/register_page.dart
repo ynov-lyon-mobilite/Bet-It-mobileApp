@@ -1,5 +1,8 @@
-import 'package:bet_it/utils/debug_logger.dart';
-import 'package:country_picker/country_picker.dart';
+import 'package:bet_it/widgets/confirmation_btn.dart';
+import 'package:bet_it/widgets/country_city_date_birth_form.dart';
+import 'package:bet_it/widgets/name_surname_form.dart';
+import 'package:bet_it/widgets/nickname_mail_form.dart';
+import 'package:bet_it/widgets/password_form.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -37,255 +40,247 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue.withOpacity(1),
-      child: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/eSport.jpg"),
-            opacity: 0.6,
-            fit: BoxFit.cover,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        color: Colors.black.withOpacity(1),
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/eSport.jpg"),
+              opacity: 0.6,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 80.0, 20.0, 80.0),
           child: SafeArea(
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: Center(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20.0, 80.0, 20.0, 80.0),
+              child: Container(
+                padding: const EdgeInsets.all(30),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Center(
+                      child: Align(
+                        alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 50.0),
+                          padding: const EdgeInsets.only(top: 25.0),
                           child: Text(
-                            "Bet-It",
+                            "Inscription.",
                             style: GoogleFonts.roboto(
-                              fontSize: 50,
-                              color: Colors.blue,
-                              letterSpacing: 2,
+                              fontSize: 25,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
                     ),
                     Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
-                        child: PageView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          controller: controller,
-                          children: [
-                            Form(
-                              key: _formKeyNameSurname,
-                              child: Center(
-                                child: Flex(
-                                  direction: Axis.vertical,
-                                  children: [
-                                    Center(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            buildGenderRow(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 70.0,
-                                                right: 70.0,
-                                                top: 40,
-                                                bottom: 40,
-                                              ),
-                                              child: buildColumnNameSurname(),
+                      flex: 3,
+                      child: PageView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        controller: controller,
+                        children: [
+                          Form(
+                            key: _formKeyNameSurname,
+                            child: Center(
+                              child: Flex(
+                                direction: Axis.vertical,
+                                children: [
+                                  Center(
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          buildGenderRow(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 40,
+                                              bottom: 40,
                                             ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  width: 200,
-                                                  color: Colors.blue,
-                                                  child: TextButton(
-                                                    onPressed: () {
-                                                      if(_formKeyNameSurname.currentState!.validate()){
-                                                        controller.nextPage(
-                                                          duration:
-                                                          const Duration(
-                                                            milliseconds: 800,
-                                                          ),
-                                                          curve: Curves.easeInOut,
-                                                        );
-                                                      }
-                                                    },
-                                                    child: const Text(
-                                                      "Suivant",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            //Pseudo, Mail, Mdp
-                            Form(
-                              key: _formKeyNicknameMail,
-                              child: Center(
-                                child: Flex(
-                                  direction: Axis.vertical,
-                                  children: [
-                                    Center(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 70.0,
-                                                right: 70.0,
-                                                top: 0,
-                                                bottom: 40,
-                                              ),
-                                              child: buildColumnNicknameMail(),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  width: 200,
-                                                  color: Colors.blue,
-                                                  child: TextButton(
-                                                    onPressed: () {
-                                                      if(_formKeyNicknameMail.currentState!.validate()){
-                                                        controller.nextPage(
-                                                          duration:
-                                                          const Duration(
-                                                            milliseconds: 800,
-                                                          ),
-                                                          curve: Curves.easeInOut,
-                                                        );
-                                                      }
-                                                    },
-                                                    child: const Text(
-                                                      "Suivant",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Form(
-                              key: _formKeyPassword,
-                              child: Center(
-                                child: Flex(
-                                  direction: Axis.vertical,
-                                  children: [
-                                    Center(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 70.0,
-                                                right: 70.0,
-                                                top: 0,
-                                                bottom: 40,
-                                              ),
-                                              child: buildColumnPassword(),
-                                            ),
-                                            Row(
+                                            child: NameSurnameForm(nameController: nameController, surnameController: surnameController),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 10.0),
+                                            child: Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                Container(
-                                                  width: 200,
-                                                  color: Colors.blue,
-                                                  child: TextButton(
-                                                    onPressed: () {
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    if (_formKeyNameSurname.currentState!.validate()) {
                                                       controller.nextPage(
-                                                        duration:
-                                                            const Duration(
+                                                        duration: const Duration(
                                                           milliseconds: 800,
                                                         ),
                                                         curve: Curves.easeInOut,
                                                       );
-                                                    },
-                                                    child: const Text(
-                                                      "Suivant",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                      ),
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    padding: const EdgeInsets.only(
+                                                      left: 40,
+                                                      right: 40,
                                                     ),
+                                                    child: const Text("Suivant"),
                                                   ),
-                                                )
+                                                ),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Form(
-                              key: _formKeyDDNCountryCity,
-                              child: Center(
-                                child: Flex(
-                                  direction: Axis.vertical,
-                                  children: [
-                                    Center(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 70.0,
-                                                  right: 70.0,
-                                                  top: 0,
-                                                  bottom: 40),
-                                              child: CountryCityDateBirthForm(
-                                                ddnController: ddnController,
-                                                countryController: countryController,
-                                                cityController: cityController,
-                                              ),
+                          ),
+                          //Pseudo, Mail, Mdp
+                          Form(
+                            key: _formKeyNicknameMail,
+                            child: Center(
+                              child: Flex(
+                                direction: Axis.vertical,
+                                children: [
+                                  Center(
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 0,
+                                              bottom: 40,
                                             ),
-                                            buildConfirmationBtn(),
-                                          ],
+                                            child: NicknameMailForm(nicknameController: nicknameController, mailController: mailController),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  if (_formKeyNicknameMail.currentState!.validate()) {
+                                                    controller.nextPage(
+                                                      duration: const Duration(
+                                                        milliseconds: 800,
+                                                      ),
+                                                      curve: Curves.easeInOut,
+                                                    );
+                                                  }
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets.only(
+                                                    left: 40,
+                                                    right: 40,
+                                                  ),
+                                                  child: const Text("Suivant"),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Form(
+                            key: _formKeyPassword,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 40.0),
+                                  child: PasswordForm(
+                                    passwordConfirmationController: passwordConfirmationController,
+                                    passwordController: passwordController,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        controller.nextPage(
+                                          duration: const Duration(
+                                            milliseconds: 800,
+                                          ),
+                                          curve: Curves.easeInOut,
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                          left: 40,
+                                          right: 40,
                                         ),
+                                        child: const Text("Suivant"),
                                       ),
                                     ),
                                   ],
                                 ),
+                              ],
+                            ),
+                          ),
+                          Form(
+                            key: _formKeyDDNCountryCity,
+                            child: Center(
+                              child: Flex(
+                                direction: Axis.vertical,
+                                children: [
+                                  Center(
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 0,
+                                              bottom: 40,
+                                            ),
+                                            child: CountryCityDateBirthForm(
+                                              ddnController: ddnController,
+                                              countryController: countryController,
+                                              cityController: cityController,
+                                            ),
+                                          ),
+                                          ConfirmationButton(
+                                            formKeyDDNCountryCity: _formKeyDDNCountryCity,
+                                            mailController: mailController,
+                                            passwordController: passwordController,
+                                            nameController: nameController,
+                                            surnameController: surnameController,
+                                            nicknameController: nicknameController,
+                                            countryController: countryController,
+                                            cityController: cityController,
+                                            ddnController: ddnController,
+                                            selectedGender: selectedGender,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        "Déjà un compte ?",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 11,
                         ),
                       ),
                     ),
@@ -306,194 +301,6 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Row buildConfirmationBtn() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 200,
-          color: Colors.blue,
-          child: TextButton(
-            onPressed: () {
-              if(_formKeyDDNCountryCity.currentState!.validate()){
-
-
-                DebugLogger.debugLog("registe_page", "buildConfirmationBtn", nameController.text, 2);
-                DebugLogger.debugLog("registe_page", "buildConfirmationBtn", surnameController.text, 2);
-                DebugLogger.debugLog("registe_page", "buildConfirmationBtn", nicknameController.text, 2);
-                DebugLogger.debugLog("registe_page", "buildConfirmationBtn", countryController.text, 2);
-                DebugLogger.debugLog("registe_page", "buildConfirmationBtn", cityController.text, 2);
-                DebugLogger.debugLog("registe_page", "buildConfirmationBtn", ddnController.text, 2);
-                DebugLogger.debugLog("registe_page", "buildConfirmationBtn", mailController.text, 2);
-                DebugLogger.debugLog("registe_page", "buildConfirmationBtn", selectedGender, 2);
-              }
-            },
-            child: const Text(
-              "Confirmer",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Column buildColumnPassword() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 25.0),
-          child: TextFormField(
-            obscureText: true,
-            keyboardType: TextInputType.visiblePassword,
-            decoration: const InputDecoration(
-              hintText: "Mot de passe",
-              prefixIcon: Icon(
-                Icons.lock,
-                size: 20,
-              ),
-            ),
-            controller: passwordController,
-          ),
-        ),
-        TextFormField(
-          obscureText: true,
-          keyboardType: TextInputType.visiblePassword,
-          decoration: const InputDecoration(
-            hintText: "Confirmation",
-            prefixIcon: Icon(
-              Icons.lock,
-              size: 20,
-            ),
-          ),
-          controller: passwordConfirmationController,
-        ),
-      ],
-    );
-  }
-
-  Column buildColumnNicknameMail() {
-    return Column(
-      children: [
-        TextFormField(
-          validator: (value) {
-            if(value == null || value.isEmpty){
-              return "Veuillez remplir votre pseudo";
-            }
-            return null;
-          },
-          decoration: const InputDecoration(
-            hintText: "Pseudo",
-            prefixIcon: Icon(Icons.person),
-          ),
-          controller: nicknameController,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 25.0),
-          child: TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if(value == null || value.isEmpty){
-                return "Veuillez remplir votre adresse mail";
-              }
-              return null;
-            },
-            controller: mailController,
-            decoration: const InputDecoration(
-              hintText: "Adresse mail",
-              prefixIcon: Icon(Icons.mail_outline_outlined),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column buildColumnNameSurname() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 15.0),
-          child: TextFormField(
-            keyboardType: TextInputType.name,
-            validator: (value) {
-              if(value == null || value.isEmpty){
-                return "Veuillez remplir votre nom";
-              }
-              return null;
-            },
-            controller: nameController,
-            decoration: const InputDecoration(
-              hintText: "Nom",
-              prefixIcon: Icon(Icons.account_circle_outlined),
-            ),
-          ),
-        ),
-        TextFormField(
-          validator: (value) {
-            if(value == null || value.isEmpty){
-              return "Veuillez remplir votre prénom";
-            }
-            return null;
-          },
-          controller: surnameController,
-          decoration: const InputDecoration(
-            hintText: "Prenom",
-            prefixIcon: Icon(Icons.account_circle_outlined),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row buildGenderRow() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-          child: TextButton(
-            onPressed: () {
-              if (mounted) {
-                setState(() {
-                  isWomanSelected = !isWomanSelected;
-                });
-                selectedGender = "Male";
-              }
-            },
-            child: Text(
-              "Homme",
-              style: TextStyle(
-                color: isWomanSelected ? Colors.blue : Colors.white,
-              ),
-            ),
-          ),
-          color: isWomanSelected ? Colors.white : Colors.blue,
-        ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-          color: isWomanSelected ? Colors.blue : Colors.white,
-          child: TextButton(
-            onPressed: () {
-              if (mounted) {
-                setState(() {
-                  isWomanSelected = !isWomanSelected;
-                });
-                selectedGender = "Woman";
-              }
-            },
-            child: Text(
-              "Femme",
-              style: TextStyle(
-                color: isWomanSelected ? Colors.white : Colors.blue,
-              ),
-            ),
-          ),
-        ),
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    );
-  }
-
   @override
   void initState() {
     controller.addListener(() {
@@ -509,106 +316,64 @@ class _RegisterPageState extends State<RegisterPage> {
     controller.dispose();
     super.dispose();
   }
-}
 
-class CountryCityDateBirthForm extends StatefulWidget {
-  final TextEditingController ddnController;
-  final TextEditingController countryController;
-  final TextEditingController cityController;
-
-  const CountryCityDateBirthForm({
-    Key? key,
-    required this.ddnController,
-    required this.countryController,
-    required this.cityController,
-  }) : super(key: key);
-
-  @override
-  _CountryCityDateBirthFormState createState() => _CountryCityDateBirthFormState();
-}
-
-class _CountryCityDateBirthFormState extends State<CountryCityDateBirthForm> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
+  Row buildGenderRow() {
+    return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 15.0),
-          child: GestureDetector(
-            onTap: () async {
-              var selectedDate = await showDatePicker(
-                locale: const Locale("fr","FR"),
-                context: context,
-                initialDate: DateTime.now(),
-                lastDate: DateTime.now(),
-                firstDate: DateTime(1900),
-              );
-              setState(() {
-                widget.ddnController.text = "${selectedDate?.day}-${selectedDate?.month}-${selectedDate?.year}";
-              });
+        Container(
+          padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+          child: ElevatedButton(
+            style: ButtonStyle(backgroundColor: isWomanSelected ? MaterialStateProperty.all(Colors.white) : MaterialStateProperty.all(Colors.blue)),
+            onPressed: () {
+              if (mounted) {
+                setState(() {
+                  isWomanSelected = !isWomanSelected;
+                });
+                selectedGender = "Male";
+              }
             },
-            child: TextFormField(
-              enabled: false,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Indiquez votre date de naissance";
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                hintText: "Date de naissance",
-                prefixIcon: Icon(
-                  Icons.calendar_today,
-                  size: 20,
+            child: Container(
+              padding: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+              ),
+              child: Text(
+                "Homme",
+                style: TextStyle(
+                  color: isWomanSelected ? Colors.blue : Colors.white,
                 ),
               ),
-              controller: widget.ddnController,
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 15.0),
-          child: GestureDetector(
-            onTap: () {
-              showCountryPicker(
-                context: context,
-                onSelect: (Country country) {
-                  widget.countryController.text = country.name;
-                },
-              );
+        Container(
+          padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+          child: ElevatedButton(
+            style: ButtonStyle(backgroundColor: isWomanSelected ? MaterialStateProperty.all(Colors.blue) : MaterialStateProperty.all(Colors.white)),
+            onPressed: () {
+              if (mounted) {
+                setState(() {
+                  isWomanSelected = !isWomanSelected;
+                });
+                selectedGender = "Femme";
+              }
             },
-            child: TextFormField(
-              enabled: false,
-              validator: (value) {
-                if(value == null || value.isEmpty){
-                  return "Veuillez remplir votre pays de naissance";
-                }
-                return null;
-              },
-              controller: widget.countryController,
-              decoration: const InputDecoration(
-                hintText: "Pays de naissance",
-                prefixIcon: Icon(Icons.map),
+            child: Container(
+              padding: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+              ),
+              child: Text(
+                "Femme",
+                style: TextStyle(
+                  color: isWomanSelected ? Colors.white : Colors.blue,
+                ),
               ),
             ),
-          ),
-        ),
-        TextFormField(
-          validator: (value) {
-            if(value == null || value.isEmpty){
-              return "Veuillez remplir votre ville de naissance";
-            }
-            return null;
-          },
-          controller: widget.cityController,
-          decoration: const InputDecoration(
-            hintText: "Ville de naissance",
-            prefixIcon: Icon(Icons.location_city_sharp),
           ),
         ),
       ],
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     );
   }
 }
-
