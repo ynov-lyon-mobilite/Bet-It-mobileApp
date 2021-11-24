@@ -61,238 +61,238 @@ class _RegisterPageState extends State<RegisterPage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Stack(
                   children: [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 25.0),
-                          child: Text(
-                            "Inscription.",
-                            style: GoogleFonts.roboto(
-                              fontSize: 25,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                    Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 25.0),
+                            child: Text(
+                              "Inscription.",
+                              style: GoogleFonts.roboto(
+                                fontSize: 25,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: PageView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        controller: controller,
-                        children: [
-                          Form(
-                            key: _formKeyNameSurname,
-                            child: Center(
-                              child: Flex(
-                                direction: Axis.vertical,
-                                children: [
-                                  Center(
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          buildGenderRow(),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 40,
-                                              bottom: 40,
-                                            ),
-                                            child: NameSurnameForm(nameController: nameController, surnameController: surnameController),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 10.0),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    if (_formKeyNameSurname.currentState!.validate()) {
-                                                      controller.nextPage(
-                                                        duration: const Duration(
-                                                          milliseconds: 800,
-                                                        ),
-                                                        curve: Curves.easeInOut,
-                                                      );
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    padding: const EdgeInsets.only(
-                                                      left: 40,
-                                                      right: 40,
-                                                    ),
-                                                    child: const Text("Suivant"),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          //Pseudo, Mail, Mdp
-                          Form(
-                            key: _formKeyNicknameMail,
-                            child: Center(
-                              child: Flex(
-                                direction: Axis.vertical,
-                                children: [
-                                  Center(
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 0,
-                                              bottom: 40,
-                                            ),
-                                            child: NicknameMailForm(nicknameController: nicknameController, mailController: mailController),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  if (_formKeyNicknameMail.currentState!.validate()) {
-                                                    controller.nextPage(
-                                                      duration: const Duration(
-                                                        milliseconds: 800,
-                                                      ),
-                                                      curve: Curves.easeInOut,
-                                                    );
-                                                  }
-                                                },
-                                                child: Container(
-                                                  padding: const EdgeInsets.only(
-                                                    left: 40,
-                                                    right: 40,
-                                                  ),
-                                                  child: const Text("Suivant"),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Form(
-                            key: _formKeyPassword,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 40.0),
-                                  child: PasswordForm(
-                                    passwordConfirmationController: passwordConfirmationController,
-                                    passwordController: passwordController,
-                                  ),
-                                ),
-                                Row(
+                        Expanded(
+                          child: PageView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            controller: controller,
+                            children: [
+                              Form(
+                                key: _formKeyNameSurname,
+                                child: Flex(
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  direction: Axis.vertical,
                                   children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        controller.nextPage(
-                                          duration: const Duration(
-                                            milliseconds: 800,
-                                          ),
-                                          curve: Curves.easeInOut,
-                                        );
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.only(
-                                          left: 40,
-                                          right: 40,
+                                    Center(
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            buildGenderRow(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                top: 40,
+                                                bottom: 40,
+                                              ),
+                                              child: NameSurnameForm(nameController: nameController, surnameController: surnameController),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 10.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      if (_formKeyNameSurname.currentState!.validate()) {
+                                                        controller.nextPage(
+                                                          duration: const Duration(
+                                                            milliseconds: 800,
+                                                          ),
+                                                          curve: Curves.easeInOut,
+                                                        );
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      padding: const EdgeInsets.only(
+                                                        left: 40,
+                                                        right: 40,
+                                                      ),
+                                                      child: const Text("Suivant"),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        child: const Text("Suivant"),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Form(
-                            key: _formKeyDDNCountryCity,
-                            child: Center(
-                              child: Flex(
-                                direction: Axis.vertical,
-                                children: [
-                                  Center(
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 0,
-                                              bottom: 40,
-                                            ),
-                                            child: CountryCityDateBirthForm(
-                                              ddnController: ddnController,
-                                              countryController: countryController,
-                                              cityController: cityController,
-                                            ),
+                              ),
+                              //Pseudo, Mail, Mdp
+                              Form(
+                                key: _formKeyNicknameMail,
+                                child: Center(
+                                  child: Flex(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    direction: Axis.vertical,
+                                    children: [
+                                      Center(
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 0,
+                                                  bottom: 40,
+                                                ),
+                                                child: NicknameMailForm(nicknameController: nicknameController, mailController: mailController),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      if (_formKeyNicknameMail.currentState!.validate()) {
+                                                        controller.nextPage(
+                                                          duration: const Duration(
+                                                            milliseconds: 800,
+                                                          ),
+                                                          curve: Curves.easeInOut,
+                                                        );
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      padding: const EdgeInsets.only(
+                                                        left: 40,
+                                                        right: 40,
+                                                      ),
+                                                      child: const Text("Suivant"),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                          ConfirmationButton(
-                                            formKeyDDNCountryCity: _formKeyDDNCountryCity,
-                                            mailController: mailController,
-                                            passwordController: passwordController,
-                                            nameController: nameController,
-                                            surnameController: surnameController,
-                                            nicknameController: nicknameController,
-                                            countryController: countryController,
-                                            cityController: cityController,
-                                            ddnController: ddnController,
-                                            selectedGender: selectedGender,
-                                          ),
-                                        ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Form(
+                                key: _formKeyPassword,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 40.0),
+                                      child: PasswordForm(
+                                        passwordConfirmationController: passwordConfirmationController,
+                                        passwordController: passwordController,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            controller.nextPage(
+                                              duration: const Duration(
+                                                milliseconds: 800,
+                                              ),
+                                              curve: Curves.easeInOut,
+                                            );
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.only(
+                                              left: 40,
+                                              right: 40,
+                                            ),
+                                            child: const Text("Suivant"),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
+                              Form(
+                                key: _formKeyDDNCountryCity,
+                                child: Center(
+                                  child: Flex(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    direction: Axis.vertical,
+                                    children: [
+                                      Center(
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 0,
+                                                  bottom: 40,
+                                                ),
+                                                child: CountryCityDateBirthForm(
+                                                  ddnController: ddnController,
+                                                  countryController: countryController,
+                                                  cityController: cityController,
+                                                ),
+                                              ),
+                                              ConfirmationButton(
+                                                formKeyDDNCountryCity: _formKeyDDNCountryCity,
+                                                mailController: mailController,
+                                                passwordController: passwordController,
+                                                nameController: nameController,
+                                                surnameController: surnameController,
+                                                nicknameController: nicknameController,
+                                                countryController: countryController,
+                                                cityController: cityController,
+                                                ddnController: ddnController,
+                                                selectedGender: selectedGender,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text(
+                            "Déjà un compte ?",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 11,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text(
-                        "Déjà un compte ?",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 11,
                         ),
-                      ),
-                    ),
-                    StepProgressIndicator(
-                      size: 10,
-                      totalSteps: 3,
-                      currentStep: currentIndex,
-                      selectedColor: Colors.blue,
-                      unselectedColor: Colors.transparent,
+                        StepProgressIndicator(
+                          size: 10,
+                          totalSteps: 3,
+                          currentStep: currentIndex,
+                          selectedColor: Colors.blue,
+                          unselectedColor: Colors.transparent,
+                        ),
+                      ],
                     ),
                   ],
-                ),
+                )
               ),
             ),
           ),

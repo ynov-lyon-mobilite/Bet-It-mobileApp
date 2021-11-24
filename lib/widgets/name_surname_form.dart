@@ -16,33 +16,63 @@ class NameSurnameForm extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 15.0),
-          child: TextFormField(
-            keyboardType: TextInputType.name,
-            validator: (value) {
-              if(value == null || value.isEmpty){
-                return "Veuillez remplir votre nom";
-              }
-              return null;
-            },
-            controller: nameController,
-            decoration: const InputDecoration(
-              hintText: "Nom",
-              prefixIcon: Icon(Icons.account_circle_outlined),
-            ),
+          child: Column(
+            children: [
+              const Align(
+                child: Text(
+                  "NOM",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    letterSpacing: 2,
+                    fontSize: 11,
+                  ),
+                ),
+                alignment: Alignment.centerLeft,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.name,
+                validator: (value) {
+                  if(value == null || value.isEmpty){
+                    return "Veuillez remplir votre nom";
+                  }
+                  return null;
+                },
+                controller: nameController,
+                decoration: const InputDecoration(
+                  hintText: "Nom",
+                  hintStyle: TextStyle(color: Colors.grey)
+                ),
+              ),
+            ],
           ),
         ),
-        TextFormField(
-          validator: (value) {
-            if(value == null || value.isEmpty){
-              return "Veuillez remplir votre prénom";
-            }
-            return null;
-          },
-          controller: surnameController,
-          decoration: const InputDecoration(
-            hintText: "Prenom",
-            prefixIcon: Icon(Icons.account_circle_outlined),
-          ),
+        Column(
+          children: [
+            const Align(
+              child: Text(
+                "PRENOM",
+                style: TextStyle(
+                  color: Colors.grey,
+                  letterSpacing: 2,
+                  fontSize: 11,
+                ),
+              ),
+              alignment: Alignment.centerLeft,
+            ),
+            TextFormField(
+              validator: (value) {
+                if(value == null || value.isEmpty){
+                  return "Veuillez remplir votre prénom";
+                }
+                return null;
+              },
+              controller: surnameController,
+              decoration: const InputDecoration(
+                hintText: "Prenom",
+                hintStyle: TextStyle(color: Colors.grey,)
+              ),
+            ),
+          ],
         ),
       ],
     );

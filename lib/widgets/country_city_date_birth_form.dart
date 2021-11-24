@@ -37,22 +37,34 @@ class _CountryCityDateBirthFormState extends State<CountryCityDateBirthForm> {
                 widget.ddnController.text = "${selectedDate?.day}-${selectedDate?.month}-${selectedDate?.year}";
               });
             },
-            child: TextFormField(
-              enabled: false,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Indiquez votre date de naissance";
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                hintText: "Date de naissance",
-                prefixIcon: Icon(
-                  Icons.calendar_today,
-                  size: 20,
+            child: Column(
+              children: [
+                const Align(
+                  child: Text(
+                    "DATE DE NAISSANCE",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      letterSpacing: 2,
+                      fontSize: 11,
+                    ),
+                  ),
+                  alignment: Alignment.centerLeft,
                 ),
-              ),
-              controller: widget.ddnController,
+                TextFormField(
+                  enabled: false,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Indiquez votre date de naissance";
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    hintText: "Date de naissance",
+                    hintStyle: TextStyle(color: Colors.grey)
+                  ),
+                  controller: widget.ddnController,
+                ),
+              ],
             ),
           ),
         ),
@@ -67,34 +79,64 @@ class _CountryCityDateBirthFormState extends State<CountryCityDateBirthForm> {
                 },
               );
             },
-            child: TextFormField(
-              enabled: false,
-              validator: (value) {
-                if(value == null || value.isEmpty){
-                  return "Veuillez remplir votre pays de naissance";
-                }
-                return null;
-              },
-              controller: widget.countryController,
-              decoration: const InputDecoration(
-                hintText: "Pays de naissance",
-                prefixIcon: Icon(Icons.map),
-              ),
+            child: Column(
+              children: [
+                const Align(
+                  child: Text(
+                    "PAYS DE NAISSANCE",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      letterSpacing: 2,
+                      fontSize: 11,
+                    ),
+                  ),
+                  alignment: Alignment.centerLeft,
+                ),
+                TextFormField(
+                  enabled: false,
+                  validator: (value) {
+                    if(value == null || value.isEmpty){
+                      return "Veuillez remplir votre pays de naissance";
+                    }
+                    return null;
+                  },
+                  controller: widget.countryController,
+                  decoration: const InputDecoration(
+                    hintText: "Pays de naissance",
+                    hintStyle: TextStyle(color: Colors.grey)
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        TextFormField(
-          validator: (value) {
-            if(value == null || value.isEmpty){
-              return "Veuillez remplir votre ville de naissance";
-            }
-            return null;
-          },
-          controller: widget.cityController,
-          decoration: const InputDecoration(
-            hintText: "Ville de naissance",
-            prefixIcon: Icon(Icons.location_city_sharp),
-          ),
+        Column(
+          children: [
+            const Align(
+              child: Text(
+                "VILLE DE NAISSANCE",
+                style: TextStyle(
+                  color: Colors.grey,
+                  letterSpacing: 2,
+                  fontSize: 11,
+                ),
+              ),
+              alignment: Alignment.centerLeft,
+            ),
+            TextFormField(
+              validator: (value) {
+                if(value == null || value.isEmpty){
+                  return "Veuillez remplir votre ville de naissance";
+                }
+                return null;
+              },
+              controller: widget.cityController,
+              decoration: const InputDecoration(
+                hintText: "Ville de naissance",
+                hintStyle: TextStyle(color: Colors.grey)
+              ),
+            ),
+          ],
         ),
       ],
     );

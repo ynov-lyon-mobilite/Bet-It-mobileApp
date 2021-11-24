@@ -15,34 +15,64 @@ class NicknameMailForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextFormField(
-          validator: (value) {
-            if(value == null || value.isEmpty){
-              return "Veuillez remplir votre pseudo";
-            }
-            return null;
-          },
-          decoration: const InputDecoration(
-            hintText: "Pseudo",
-            prefixIcon: Icon(Icons.person),
-          ),
-          controller: nicknameController,
+        Column(
+          children: [
+            const Align(
+              child: Text(
+                "PSEUDO",
+                style: TextStyle(
+                  color: Colors.grey,
+                  letterSpacing: 2,
+                  fontSize: 11,
+                ),
+              ),
+              alignment: Alignment.centerLeft,
+            ),
+            TextFormField(
+              validator: (value) {
+                if(value == null || value.isEmpty){
+                  return "Veuillez remplir votre pseudo";
+                }
+                return null;
+              },
+              decoration: const InputDecoration(
+                hintText: "Pseudo",
+                hintStyle: TextStyle(color: Colors.grey),
+              ),
+              controller: nicknameController,
+            ),
+          ],
         ),
         Padding(
           padding: const EdgeInsets.only(top: 25.0),
-          child: TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if(value == null || value.isEmpty || !EmailValidator.validate(value)){
-                return "Veuillez vérifier votre adresse mail";
-              }
-              return null;
-            },
-            controller: mailController,
-            decoration: const InputDecoration(
-              hintText: "Adresse mail",
-              prefixIcon: Icon(Icons.mail_outline_outlined),
-            ),
+          child: Column(
+            children: [
+              const Align(
+                child: Text(
+                  "ADRESSE MAIL",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    letterSpacing: 2,
+                    fontSize: 11,
+                  ),
+                ),
+                alignment: Alignment.centerLeft,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if(value == null || value.isEmpty || !EmailValidator.validate(value)){
+                    return "Veuillez vérifier votre adresse mail";
+                  }
+                  return null;
+                },
+                controller: mailController,
+                decoration: const InputDecoration(
+                  hintText: "Adresse mail",
+                  hintStyle: TextStyle(color: Colors.grey)
+                ),
+              ),
+            ],
           ),
         ),
       ],
