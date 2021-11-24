@@ -56,31 +56,31 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 80.0, 20.0, 80.0),
               child: Container(
-                padding: const EdgeInsets.all(30),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 25.0),
-                            child: Text(
-                              "Inscription.",
-                              style: GoogleFonts.roboto(
-                                fontSize: 25,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                  padding: const EdgeInsets.all(30),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Stack(
+                    children: [
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 25.0),
+                              child: Text(
+                                "Inscription.",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: PageView(
+                          Expanded(
+                              child: PageView(
                             physics: const NeverScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             controller: controller,
@@ -270,30 +270,28 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ),
                             ],
-                          )
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text(
-                            "Déjà un compte ?",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 11,
+                          )),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text(
+                              "Déjà un compte ?",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 11,
+                              ),
                             ),
                           ),
-                        ),
-                        StepProgressIndicator(
-                          size: 10,
-                          totalSteps: 3,
-                          currentStep: currentIndex,
-                          selectedColor: Colors.blue,
-                          unselectedColor: Colors.transparent,
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              ),
+                          StepProgressIndicator(
+                            size: 10,
+                            totalSteps: 3,
+                            currentStep: currentIndex,
+                            selectedColor: Colors.blue,
+                            unselectedColor: Colors.transparent,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
             ),
           ),
         ),
