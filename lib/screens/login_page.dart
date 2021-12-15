@@ -1,3 +1,6 @@
+import 'package:bet_it/managers/auth_manager.dart';
+import 'package:bet_it/model/instance_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +13,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isPasswordVisible = false;
+
+  final mailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                                       alignment: Alignment.centerLeft,
                                     ),
                                     TextFormField(
+                                      controller: mailController,
                                       keyboardType: TextInputType.emailAddress,
                                       decoration: const InputDecoration(
                                         hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
@@ -95,8 +103,9 @@ class _LoginPageState extends State<LoginPage> {
                                       alignment: Alignment.centerLeft,
                                     ),
                                     TextFormField(
+                                      controller: passwordController,
                                       keyboardType: TextInputType.visiblePassword,
-                                      obscureText: true,
+                                      obscureText: !isPasswordVisible,
                                       decoration: InputDecoration(
                                         hintText: "Mot de passe",
                                         hintStyle: const TextStyle(fontSize: 15, color: Colors.grey),
@@ -117,6 +126,12 @@ class _LoginPageState extends State<LoginPage> {
                                           ),
                                         ),
                                       ),
+                                      validator: (value) {
+                                        if(value!.isEmpty || value == "") {
+                                          return "Merci d'écrire votre mot de passe";
+                                        }
+                                        return null;
+                                      },
                                     ),
                                   ],
                                 ),
@@ -145,7 +160,13 @@ class _LoginPageState extends State<LoginPage> {
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(Colors.blue),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            AuthManager.loginUserFirebase(mailController.text, passwordController.text).then((value) {
+                              if(value.user != null) {
+                                Navigator.of(context).pushNamed("/home");
+                              }
+                            });
+                          },
                           child: Container(
                             padding: const EdgeInsets.only(
                               left: 40,
