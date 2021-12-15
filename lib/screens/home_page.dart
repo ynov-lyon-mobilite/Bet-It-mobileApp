@@ -141,11 +141,24 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+=======
+>>>>>>> Stashed changes
         //Floating action button on Scaffold
         onPressed: () {
           Navigator.push(
             context,
+<<<<<<< Updated upstream
             MaterialPageRoute(builder: (context) => const MyTicketPage()),
+=======
+            MaterialPageRoute(builder: (context) =>  MyTicketPage()),
+>>>>>>> Stashed changes
           );
         },
         child: Icon(Icons.receipt_long_rounded),
@@ -190,6 +203,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     );
   }
 }
