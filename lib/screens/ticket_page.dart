@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/finished_page.dart';
+
 class MyTicketPage extends StatefulWidget {
   const MyTicketPage({Key? key}) : super(key: key);
 
@@ -23,9 +25,9 @@ class _MyTicketPage extends State<MyTicketPage> {
             ),
             title: const Text('Flutter Tabs Example'),
           ),
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              Center(child: Text("Car")),
+              FinishedPage(),
               Center(child: Text("Transit")),
               Center(child: Text("ok"))
             ],
