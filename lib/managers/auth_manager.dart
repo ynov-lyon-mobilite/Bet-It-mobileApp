@@ -3,6 +3,32 @@ import 'package:bet_it/utils/debug_logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthManager {
+  static Future<UserCredential> loginUserFirebase(String mailAddress, String password) async {
+    try {
+      return InstanceManager.getFireAuthInstance().signInWithEmailAndPassword(
+        email: mailAddress,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        DebugLogger.debugLog(
+          "auth_manager",
+          "loginUserFirebase",
+          "User not found",
+          1,
+        );
+      } else if (e.code == 'wrong-password') {
+        DebugLogger.debugLog(
+          "auth_manager",
+          "loginUserFirebase",
+          "Wrong password",
+          1,
+        );
+      }
+    }
+    return Future.error("Incorrect Password");
+  }
+
   static Future<UserCredential?> createUserFirebase(String mailAddress, String password) async {
     try {
       return InstanceManager.getFireAuthInstance().createUserWithEmailAndPassword(
