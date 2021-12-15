@@ -163,7 +163,6 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () {
                             AuthManager.loginUserFirebase(mailController.text, passwordController.text).then((value) {
                               if(value.user != null) {
-                                InstanceManager.getFireAuthInstance().setPersistence(Persistence.LOCAL);
                                 Navigator.of(context).pushNamed("/home");
                               }
                             });
