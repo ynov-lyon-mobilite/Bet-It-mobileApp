@@ -15,6 +15,7 @@ class _MyTicketPage extends State<MyTicketPage> {
     return DefaultTabController(
         length: 3,
         child: Scaffold(
+          backgroundColor: Color(0xFF121212),
           appBar: AppBar(
             bottom: const TabBar(
               tabs: [
@@ -23,13 +24,13 @@ class _MyTicketPage extends State<MyTicketPage> {
                 Tab(text: "Terminé(s)"),
               ],
             ),
-            title: const Text('Flutter Tabs Example'),
+            title: const Text('Panier'),
           ),
           body: TabBarView(
             children: [
-              FinishedPage(),
               Center(child: Text("Transit")),
-              Center(child: Text("ok"))
+              Center(child: Text("ok")),
+              FinishedPage()
             ],
           ),
         )
