@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
       future: FirebaseDatabase.initialize(),
       builder: (context, snapshot) {
-        if(snapshot.connectionState == ConnectionState.done){
+        if (snapshot.connectionState == ConnectionState.done) {
           DebugLogger.debugLog("main.dart", "build", "Firebase initialized", 3);
 
           return MaterialApp(
@@ -30,31 +30,26 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('fr','FR')
-            ],
+            supportedLocales: const [Locale('en'), Locale('fr', 'FR')],
             title: 'Flutter Demo',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: InstanceManager.getFireAuthInstance().currentUser == null ? const LoginPage() : const MyHomePage(),
+            home: InstanceManager.getFireAuthInstance().currentUser == null ? const LoginPage() : const HomePage(),
             routes: {
               '/register': (context) => const RegisterPage(),
               '/profile': (context) => const ProfilePage(),
-              '/home': (context) => const MyHomePage(),
+              '/home': (context) => const HomePage(),
               '/login': (context) => const LoginPage(),
             },
           );
-        }
-        if(snapshot.hasError){
+        } else if (snapshot.hasError) {
           DebugLogger.debugLog("main.dart", "build", "Firebase initialization failed !", 1);
-
-          return const Scaffold();
         }
-        return const Center(child: CircularProgressIndicator(),);
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }
 }
-
