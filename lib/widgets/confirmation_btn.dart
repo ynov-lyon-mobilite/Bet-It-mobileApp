@@ -57,7 +57,7 @@ class ConfirmationButton extends StatelessWidget {
                   selectedGender,
                 );
 
-                Navigator.of(context).pushNamed('/home');
+                Navigator.of(context).pushNamed('/login');
                 DialogManager.showCustomDialog(context, "Confirmer votre mail", "Un mail a été envoyé à l'adresse que vous avez inscrit, cliquez sur le lien reçu pour valider votre compte.");
               } else {
                 DebugLogger.debugLog("confirmation_btn", "build", "Compte non-créé", 1);
