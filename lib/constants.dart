@@ -11,8 +11,8 @@ const double padding50 = 50;
 const double fontSize15 = 15;
 const double fontSize18 = 18;
 
-final kCorp = Team(name: 'Karmine Corp', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2d/Karmine_Corplogo_square.png/revision/latest/scale-to-width-down/1078?cb=20210312231319', teamBannerColor: Colors.orange);
-final fnatic = Team(name: 'Fnatic', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/fc/Fnaticlogo_square.png/revision/latest/scale-to-width-down/5000?cb=20210319200026', teamBannerColor: Colors.blueAccent);
+final kCorp = Team(name: 'Karmine Corp', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2d/Karmine_Corplogo_square.png/revision/latest/scale-to-width-down/1078?cb=20210312231319', teamBannerColor: Colors.blueAccent);
+final fnatic = Team(name: 'Fnatic', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/fc/Fnaticlogo_square.png/revision/latest/scale-to-width-down/5000?cb=20210319200026', teamBannerColor: Colors.orange);
 final rogue = Team(name: 'Rogue', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a4/Rogue_%28European_Team%29logo_square.png/revision/latest/scale-to-width-down/5000?cb=20210810012650', teamBannerColor: const Color(0xFF01579B));
 final sktt1 = Team(name: 'SKT T1', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a2/T1logo_square.png/revision/latest/scale-to-width-down/5000?cb=20210808140847%20T1.png', teamBannerColor: Colors.red);
 final tsm = Team(name: 'TSM', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/09/TSMlogo_square.png/revision/latest/scale-to-width-down/840?cb=20200118050248%20TSM.png', teamBannerColor: Colors.white10);

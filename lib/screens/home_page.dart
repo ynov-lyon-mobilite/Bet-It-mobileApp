@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: backgroundColor,
       extendBody: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           Center(
@@ -50,7 +51,9 @@ class _HomePageState extends State<HomePage> {
           Padding(
               padding: const EdgeInsets.only(right: padding20),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, "/profile");
+                },
                 child: const Icon(
                   Icons.account_circle,
                   size: 26.0,

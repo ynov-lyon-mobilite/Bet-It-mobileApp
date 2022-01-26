@@ -25,7 +25,7 @@ class MatchRow extends StatelessWidget {
             ///depend on font Size
             height: MediaQuery.of(context).size.height * 0.18,
             width: 30,
-            color: Colors.blueAccent,
+            color: match.team1.teamBannerColor,
             child: RotatedBox(
               quarterTurns: 3,
               child: Center(
@@ -87,7 +87,7 @@ class MatchRow extends StatelessWidget {
               ///depend on font Size
               height: MediaQuery.of(context).size.height * 0.18,
               width: 30,
-              color: Colors.orange,
+              color: match.team2.teamBannerColor,
               child: RotatedBox(
                 quarterTurns: 1,
                 child: Center(
