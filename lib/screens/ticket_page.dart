@@ -19,6 +19,7 @@ class _MyTicketPage extends State<MyTicketPage> {
           extendBodyBehindAppBar: true,
           backgroundColor: Color(0xFF121212),
           appBar: AppBar(
+            shadowColor: Colors.transparent,
             bottom: const TabBar(
               tabs: [
                 Tab(text: "Panier"),
@@ -29,6 +30,7 @@ class _MyTicketPage extends State<MyTicketPage> {
             title: const Text('Panier'),
           ),
           body: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               const CartPage(),
               Center(child: Text("ok")),

@@ -14,8 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,41 +27,43 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.only(right: padding20),
               child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: padding10),
-                    child: Row(
-                      children: const [
-                        Text(
-                          "1000",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize15,
-                          ),
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.only(right: padding10),
+                  child: Row(
+                    children: const [
+                      Text(
+                        "1000",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize15,
                         ),
-                        Image(
-                          image: AssetImage("assets/betty.png"),
-                          width: 30,
-                          height: 30,
-                          fit: BoxFit.fill,
-                        )
-                      ],
-                    ),
-                  )),
+                      ),
+                      Image(
+                        image: AssetImage("assets/betty.png"),
+                        width: 30,
+                        height: 30,
+                        fit: BoxFit.fill,
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
           Padding(
-              padding: const EdgeInsets.only(right: padding20),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, "/profile");
-                },
-                child: const Icon(
-                  Icons.account_circle,
-                  size: 26.0,
-                ),
-              )),
+            padding: const EdgeInsets.only(right: padding20),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, "/profile");
+              },
+              child: const Icon(
+                Icons.account_circle,
+                size: 26.0,
+              ),
+            ),
+          ),
         ],
       ),
       resizeToAvoidBottomInset: false,
@@ -72,11 +72,10 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           return Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF282828),
+              color: backgroundColor,
               border: Border.all(),
               borderRadius: const BorderRadius.all(Radius.circular(5)),
             ),
-            width: MediaQuery.of(context).size.width * 1,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -87,7 +86,11 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
                     leagueList.elementAt(index).name,
-                    style: const TextStyle(color: Colors.white, fontSize: fontSize15),
+                    style: const TextStyle(
+                      color: foregroundColor,
+                      fontSize: fontSize15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Flexible(
@@ -169,7 +172,10 @@ class _HomePageState extends State<HomePage> {
 
     var usersCollection = InstanceManager.getDatabaseInstance().collection("users");
 
-    usersCollection.doc(InstanceManager.getAuthInstance().currentUser!.uid).get().then((userFromDb) {
+    usersCollection
+        .doc(InstanceManager.getAuthInstance().currentUser!.uid)
+        .get()
+        .then((userFromDb) {
       currentUser = User(
         surname: userFromDb.get("surname"),
         name: userFromDb.get("name"),

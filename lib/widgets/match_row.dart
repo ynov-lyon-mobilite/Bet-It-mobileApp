@@ -13,58 +13,100 @@ class MatchRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: Container(
+        decoration: BoxDecoration(
           border: Border.all(
-        color: Colors.black,
-        width: 0.5,
-      )),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildLeftTeamBanner(context),
-          buildLeftTeamColumn(),
-          buildVSText(),
-          buildRightTeamColumn(),
-          buildRightTeamBanner(context),
-        ],
+            color: backgroundColor,
+            width: 0.5,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            buildLeftTeamColumn(context),
+            buildVSText(),
+            buildRightTeamColumn(context),
+          ],
+        ),
       ),
     );
   }
 
-  Column buildLeftTeamColumn() {
+  Column buildLeftTeamColumn(BuildContext context) {
     return Column(
       children: [
         Image(
           image: NetworkImage(match.team1.imageUrl),
           height: 50,
         ),
-        const Padding(padding: EdgeInsets.only(top: padding10)),
-        ElevatedButton(
-          onPressed: () {
-            betManager.addBetToCart(match.team1, match);
-          },
-          child: Text(match.coteT1.toString()),
+        Text(match.team1.name),
+        SizedBox(
+          width: buttonWidth,
+          child: ElevatedButton(
+            onPressed: () {
+              if (!cartManager.addBetToCart(match.team1, match, match.coteT1)) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Oups.."),
+                      content: const Text("Vous avez déjà parié sur ce match"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("D'accord"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {}
+            },
+            child: Text(match.coteT1.toString()),
+          ),
         ),
       ],
     );
   }
 
-  Column buildRightTeamColumn() {
+  Column buildRightTeamColumn(BuildContext context) {
     return Column(
       children: [
         Image(
           image: NetworkImage(match.team2.imageUrl),
           height: 50,
         ),
-        const Padding(
-          padding: EdgeInsets.only(top: padding10),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            betManager.addBetToCart(match.team2, match);
-          },
-          child: Text(match.coteT2.toString()),
+        Text(match.team2.name),
+        SizedBox(
+          width: buttonWidth,
+          child: ElevatedButton(
+            onPressed: () {
+              if (!cartManager.addBetToCart(match.team2, match, match.coteT2)) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Oups.."),
+                      content: const Text("Vous avez déjà parié sur ce match"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("D'accord"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {}
+            },
+            child: Text(match.coteT2.toString()),
+          ),
         ),
       ],
     );
@@ -93,6 +135,7 @@ class MatchRow extends StatelessWidget {
             text: TextSpan(
               text: match.team2.name,
               style: const TextStyle(
+                color: foregroundColor,
                 fontSize: fontSize18,
                 fontWeight: FontWeight.bold,
               ),
@@ -117,7 +160,11 @@ class MatchRow extends StatelessWidget {
           child: RichText(
             text: TextSpan(
               text: match.team1.name,
-              style: const TextStyle(fontSize: fontSize18, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: fontSize18,
+                fontWeight: FontWeight.bold,
+                color: foregroundColor,
+              ),
             ),
           ),
         ),
