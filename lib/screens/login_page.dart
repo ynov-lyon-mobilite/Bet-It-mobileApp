@@ -1,5 +1,7 @@
+import 'package:bet_it/global.dart';
 import 'package:bet_it/managers/auth_manager.dart';
 import 'package:bet_it/model/instance_manager.dart';
+import 'package:bet_it/model/user.dart' as model;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -123,11 +125,11 @@ class _LoginPageState extends State<LoginPage> {
                                                   Icons.visibility,
                                                   size: 20,
                                                   color: Colors.blue,
-                                          ),
+                                                ),
                                         ),
                                       ),
                                       validator: (value) {
-                                        if(value!.isEmpty || value == "") {
+                                        if (value!.isEmpty || value == "") {
                                           return "Merci d'écrire votre mot de passe";
                                         }
                                         return null;
@@ -162,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           onPressed: () {
                             AuthManager.loginUserFirebase(mailController.text, passwordController.text).then((value) {
-                              if(value.user != null) {
+                              if (value.user != null) {
                                 Navigator.of(context).pushNamed("/home");
                               }
                             });
@@ -179,7 +181,10 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () => Navigator.of(context).pushNamed("/register"),
                           child: const Text(
                             "Créer un compte",
-                            style: TextStyle(color: Colors.grey, fontSize: 11,),
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 11,
+                            ),
                           ),
                         )
                       ],

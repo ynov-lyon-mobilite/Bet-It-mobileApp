@@ -277,7 +277,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               "Déjà un compte ?",
                               style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 11,
+                                fontSize: 14,
                               ),
                             ),
                           ),

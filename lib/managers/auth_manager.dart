@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthManager {
   static Future<UserCredential> loginUserFirebase(String mailAddress, String password) async {
     try {
-      return InstanceManager.getFireAuthInstance().signInWithEmailAndPassword(
+      return InstanceManager.getAuthInstance().signInWithEmailAndPassword(
         email: mailAddress,
         password: password,
       );
@@ -31,7 +31,7 @@ class AuthManager {
 
   static Future<UserCredential?> createUserFirebase(String mailAddress, String password) async {
     try {
-      return InstanceManager.getFireAuthInstance().createUserWithEmailAndPassword(
+      return InstanceManager.getAuthInstance().createUserWithEmailAndPassword(
         email: mailAddress,
         password: password,
       );
@@ -68,7 +68,7 @@ class AuthManager {
     String ddn,
     String gender,
   ) async {
-    var instance = InstanceManager.getFireStoreInstance();
+    var instance = InstanceManager.getDatabaseInstance();
     instance.collection("users").doc(uid).set({
       'name': name,
       'surname': surname,

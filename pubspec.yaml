@@ -33,18 +33,21 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  lint: ^1.7.2
-  flutter_svg: ^1.0.0
+  lint: ^1.8.2
+  flutter_svg: ^1.0.3
   cupertino_icons: ^1.0.4
-  google_fonts: ^2.1.0
-  step_progress_indicator: ^1.0.1
+  google_fonts: ^2.2.0
+  step_progress_indicator: ^1.0.2
   ansicolor: ^2.0.1
-  country_picker: ^2.0.8
+  country_picker: ^2.0.10
   email_validator: ^2.0.1
 
-  firebase_auth: ^3.2.0
-  firebase_core: ^1.10.0
-  cloud_firestore: ^3.1.0
+  uuid: ^3.0.5
+
+  firebase_auth: ^3.3.5
+  firebase_core: ^1.11.0
+  cloud_firestore: ^3.1.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

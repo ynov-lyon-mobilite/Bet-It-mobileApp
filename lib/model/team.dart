@@ -1,5 +1,17 @@
-class Team {
-  String name;
+import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
-  Team({required this.name});
+class Team {
+  late String teamId;
+  String name;
+  String imageUrl;
+  Color teamBannerColor;
+
+  Team({
+    required this.name,
+    required this.imageUrl,
+    required this.teamBannerColor,
+  }){
+    teamId = const Uuid().v4();
+  }
 }
