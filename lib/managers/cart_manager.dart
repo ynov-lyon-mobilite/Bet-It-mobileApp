@@ -3,8 +3,15 @@ import 'package:bet_it/model/bet.dart';
 import 'package:bet_it/model/match.dart';
 import 'package:bet_it/model/team.dart';
 import 'package:bet_it/utils/debug_logger.dart';
+import 'package:bet_it/widgets/cart_row.dart';
+import 'package:flutter/material.dart';
 
 class CartManager {
+
+  List<Widget> generateWidgetFromList(){
+    return (cart.betList as List<Bet>).map((bet) => CartRow(bet: bet)).toList();
+  }
+
   void computeTotalBet() {
     cart.totalBet = 0;
     for (final bet in cart.betList as List<Bet>) {

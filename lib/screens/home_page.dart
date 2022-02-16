@@ -27,28 +27,29 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.only(right: padding20),
               child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: padding10),
-                    child: Row(
-                      children: const [
-                        Text(
-                          "1000",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: fontSize15,
-                          ),
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.only(right: padding10),
+                  child: Row(
+                    children: const [
+                      Text(
+                        "1000",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize15,
                         ),
-                        Image(
-                          image: AssetImage("assets/betty.png"),
-                          width: 30,
-                          height: 30,
-                          fit: BoxFit.fill,
-                        )
-                      ],
-                    ),
-                  )),
+                      ),
+                      Image(
+                        image: AssetImage("assets/betty.png"),
+                        width: 30,
+                        height: 30,
+                        fit: BoxFit.fill,
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
           Padding(
@@ -75,7 +76,6 @@ class _HomePageState extends State<HomePage> {
               border: Border.all(),
               borderRadius: const BorderRadius.all(Radius.circular(5)),
             ),
-            width: MediaQuery.of(context).size.width * 1,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

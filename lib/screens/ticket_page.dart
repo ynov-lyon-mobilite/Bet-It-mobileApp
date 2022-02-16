@@ -30,6 +30,7 @@ class _MyTicketPage extends State<MyTicketPage> {
             title: const Text('Panier'),
           ),
           body: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               const CartPage(),
               Center(child: Text("ok")),
