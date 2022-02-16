@@ -3,12 +3,16 @@ import 'package:bet_it/model/match.dart';
 import 'package:bet_it/model/team.dart';
 import 'package:flutter/material.dart';
 
-const Color backgroundColor = Color(0xFF121212);
+const Color backgroundColor = Colors.white;
+const Color foregroundColor = Colors.black;
+const Color whiteForegroundColor = Colors.white;
+const double buttonWidth = 100;
 const double padding5 = 5;
 const double padding10 = 10;
 const double padding20 = 20;
 const double padding50 = 50;
 const double fontSize15 = 15;
+const double fontSize20 = 20;
 const double fontSize18 = 18;
 
 final kCorp = Team(name: 'Karmine Corp', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2d/Karmine_Corplogo_square.png/revision/latest/scale-to-width-down/1078?cb=20210312231319', teamBannerColor: Colors.blueAccent);

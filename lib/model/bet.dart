@@ -3,6 +3,7 @@ import 'package:bet_it/model/team.dart';
 import 'package:uuid/uuid.dart';
 
 class Bet {
+  double selectedTeamCote = 0;
   late String betId;
   Team selectedTeam;
   Match match;
@@ -10,11 +11,11 @@ class Bet {
   double _amount = 0;
   get amount => _amount;
 
-  Bet({required this.selectedTeam, required this.match}){
+  Bet({required this.selectedTeam, required this.match, required this.selectedTeamCote}){
     betId = const Uuid().v4();
   }
 
   void setAmount(double a){
-    if(a > 0) _amount = a;
+    if(a >= 0) _amount = a;
   }
 }
