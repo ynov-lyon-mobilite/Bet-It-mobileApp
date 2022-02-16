@@ -1,3 +1,4 @@
+import 'package:bet_it/screens/cart_page.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/finished_page.dart';
@@ -15,6 +16,7 @@ class _MyTicketPage extends State<MyTicketPage> {
     return DefaultTabController(
         length: 3,
         child: Scaffold(
+          extendBodyBehindAppBar: true,
           backgroundColor: Color(0xFF121212),
           appBar: AppBar(
             bottom: const TabBar(
@@ -28,7 +30,7 @@ class _MyTicketPage extends State<MyTicketPage> {
           ),
           body: TabBarView(
             children: [
-              Center(child: Text("Transit")),
+              const CartPage(),
               Center(child: Text("ok")),
               FinishedPage()
             ],

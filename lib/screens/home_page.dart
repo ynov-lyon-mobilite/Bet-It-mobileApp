@@ -1,4 +1,7 @@
 import 'package:bet_it/constants.dart';
+import 'package:bet_it/global.dart';
+import 'package:bet_it/model/instance_manager.dart';
+import 'package:bet_it/model/user.dart';
 import 'package:bet_it/screens/ticket_page.dart';
 import 'package:bet_it/widgets/match_row.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,5 +161,23 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    var usersCollection = InstanceManager.getDatabaseInstance().collection("users");
+
+    usersCollection.doc(InstanceManager.getAuthInstance().currentUser!.uid).get().then((userFromDb) {
+      currentUser = User(
+        surname: userFromDb.get("surname"),
+        name: userFromDb.get("name"),
+        mailAddress: userFromDb.get("mailAddress"),
+        nickname: userFromDb.get("nickname"),
+        countryOfBirth: userFromDb.get("birthCountry"),
+        ddn: userFromDb.get("dateOfBirth"),
+      );
+    });
   }
 }

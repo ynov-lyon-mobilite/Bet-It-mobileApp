@@ -13,46 +13,100 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: const Color(0xFF282828),
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         title: const Text("Profil"),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
         children: [
-          Container(
-            color: Colors.red,
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Row(
-                children: [
-                  Icon(Icons.person, color: Colors.white,),
-                  Text("Mon compte", style: TextStyle(color: Colors.white),),
-                ],
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, "/myaccount");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.0),
+                        child: Icon(Icons.person, color: Colors.white,),
+                      ),
+                      Text("Mon compte", style: TextStyle(color: Colors.white),),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-          Container(
-            color: Colors.red,
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Row(
-                children: const [
-                  Icon(Icons.settings, color: Colors.white,),
-                  Text("Mes options", style: TextStyle(color: Colors.white),),
-                ],
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.0),
+                        child: Icon(Icons.settings, color: Colors.white,),
+                      ),
+                      Text("Mes options", style: TextStyle(color: Colors.white),),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.0),
+                        child: Icon(Icons.assessment_outlined, color: Colors.white,),
+                      ),
+                      Text("Mes tickets", style: TextStyle(color: Colors.white),),
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.0),
+                        child: Icon(Icons.sticky_note_2_outlined, color: Colors.white,),
+                      ),
+                      Text("Mes codes", style: TextStyle(color: Colors.white),),
+                    ],
+                  ),
+                ),
+              ),
+
+            ],
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              width: MediaQuery.of(context).size.width,
               color: Colors.red,
-              child: const Text("Deconnexion", style: TextStyle(color: Colors.white),)
+              child: InkWell(
+                onTap: () {
+                  InstanceManager.getAuthInstance().signOut();
+                  Navigator.pushReplacementNamed(context, "/login");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text("Deconnexion", style: TextStyle(color: Colors.white),)
+                    ],
+                  ),
+                ),
+              ),
             ),
           )
         ],

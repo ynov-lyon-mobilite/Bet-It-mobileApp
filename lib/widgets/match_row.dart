@@ -1,4 +1,5 @@
 import 'package:bet_it/constants.dart';
+import 'package:bet_it/global.dart';
 import 'package:bet_it/model/match.dart';
 import 'package:flutter/material.dart';
 
@@ -14,99 +15,112 @@ class MatchRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black,
-          width: 0.5,
-        )
-      ),
+          border: Border.all(
+        color: Colors.black,
+        width: 0.5,
+      )),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            ///depend on font Size
-            height: MediaQuery.of(context).size.height * 0.18,
-            width: 30,
-            color: match.team1.teamBannerColor,
-            child: RotatedBox(
-              quarterTurns: 3,
-              child: Center(
-                child: RichText(
-                  text: TextSpan(
-                    text: match.team1.name,
-                    style: const TextStyle(fontSize: fontSize18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
+          buildLeftTeamBanner(context),
+          buildLeftTeamColumn(),
+          buildVSText(),
+          buildRightTeamColumn(),
+          buildRightTeamBanner(context),
+        ],
+      ),
+    );
+  }
 
-            /// <= margin  text container
-          ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 120, left: 50),
-          ),
-          Column(
-            children: [
-              Image(
-                image: NetworkImage(match.team1.imageUrl),
-                height: 50,
-              ),
-              const Padding(padding: EdgeInsets.only(top: padding10)),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(match.coteT1.toString()),
-              ),
-            ],
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 50.0, right: 50),
-            child: Text(
-              "VS",
-              style: TextStyle(
-                color: Colors.blueAccent,
+  Column buildLeftTeamColumn() {
+    return Column(
+      children: [
+        Image(
+          image: NetworkImage(match.team1.imageUrl),
+          height: 50,
+        ),
+        const Padding(padding: EdgeInsets.only(top: padding10)),
+        ElevatedButton(
+          onPressed: () {
+            betManager.addBetToCart(match.team1, match);
+          },
+          child: Text(match.coteT1.toString()),
+        ),
+      ],
+    );
+  }
+
+  Column buildRightTeamColumn() {
+    return Column(
+      children: [
+        Image(
+          image: NetworkImage(match.team2.imageUrl),
+          height: 50,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(top: padding10),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            betManager.addBetToCart(match.team2, match);
+          },
+          child: Text(match.coteT2.toString()),
+        ),
+      ],
+    );
+  }
+
+  Text buildVSText() {
+    return const Text(
+      "VS",
+      style: TextStyle(
+        color: Colors.blueAccent,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Container buildRightTeamBanner(BuildContext context) {
+    return Container(
+      ///depend on font Size
+      height: MediaQuery.of(context).size.height * 0.18,
+      width: 30,
+      color: match.team2.teamBannerColor,
+      child: RotatedBox(
+        quarterTurns: 1,
+        child: Center(
+          child: RichText(
+            text: TextSpan(
+              text: match.team2.name,
+              style: const TextStyle(
+                fontSize: fontSize18,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          Column(
-            children: [
-              Image(
-                image: NetworkImage(match.team2.imageUrl),
-                height: 50,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: padding10),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(match.coteT2.toString()),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 50),
-            child: Container(
-              ///depend on font Size
-              height: MediaQuery.of(context).size.height * 0.18,
-              width: 30,
-              color: match.team2.teamBannerColor,
-              child: RotatedBox(
-                quarterTurns: 1,
-                child: Center(
-                  child: RichText(
-                    text: TextSpan(
-                      text: match.team2.name,
-                      style: const TextStyle(
-                        fontSize: fontSize18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+        ),
+      ),
 
-              /// <= margin  text container
+      /// <= margin  text container
+    );
+  }
+
+  Container buildLeftTeamBanner(BuildContext context) {
+    return Container(
+      ///depend on font Size
+      height: MediaQuery.of(context).size.height * 0.18,
+      width: 30,
+      color: match.team1.teamBannerColor,
+      child: RotatedBox(
+        quarterTurns: 3,
+        child: Center(
+          child: RichText(
+            text: TextSpan(
+              text: match.team1.name,
+              style: const TextStyle(fontSize: fontSize18, fontWeight: FontWeight.bold),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

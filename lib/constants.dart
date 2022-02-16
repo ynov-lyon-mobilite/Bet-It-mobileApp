@@ -17,11 +17,11 @@ final rogue = Team(name: 'Rogue', imageUrl: 'https://static.wikia.nocookie.net/l
 final sktt1 = Team(name: 'SKT T1', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a2/T1logo_square.png/revision/latest/scale-to-width-down/5000?cb=20210808140847%20T1.png', teamBannerColor: Colors.red);
 final tsm = Team(name: 'TSM', imageUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/09/TSMlogo_square.png/revision/latest/scale-to-width-down/840?cb=20200118050248%20TSM.png', teamBannerColor: Colors.white10);
 
-final m1 = Match(team1: kCorp, team2: fnatic, coteT1: 2.4, coteT2: 1.8);
-final m2 = Match(team1: rogue, team2: kCorp, coteT1: 2.1, coteT2: 1.8);
-final m3 = Match(team1: rogue, team2: fnatic, coteT1: 2.7, coteT2: 2.2);
-final m4 = Match(team1: sktt1, team2: kCorp, coteT1: 2.1, coteT2: 1.7);
-final m5 = Match(team1: rogue, team2: tsm, coteT1: 1.8, coteT2: 2.1);
+final m1 = Match(id: "1", team1: kCorp, team2: fnatic, coteT1: 2.4, coteT2: 1.8);
+final m2 = Match(id: "2", team1: rogue, team2: kCorp, coteT1: 2.1, coteT2: 1.8);
+final m3 = Match(id: "3", team1: rogue, team2: fnatic, coteT1: 2.7, coteT2: 2.2);
+final m4 = Match(id: "4", team1: sktt1, team2: kCorp, coteT1: 2.1, coteT2: 1.7);
+final m5 = Match(id: "5", team1: rogue, team2: tsm, coteT1: 1.8, coteT2: 2.1);
 
 final lec = League(name: "LEC - Ligue Européenne Championship", matchList: [m1, m2]);
 final lfl = League(name: "LFL - Ligue Française de League Of Legends", matchList: [m3]);

@@ -2,6 +2,7 @@ import 'package:bet_it/model/firebase_database.dart';
 import 'package:bet_it/model/instance_manager.dart';
 import 'package:bet_it/screens/home_page.dart';
 import 'package:bet_it/screens/login_page.dart';
+import 'package:bet_it/screens/my_account.dart';
 import 'package:bet_it/screens/profile_page.dart';
 import 'package:bet_it/screens/register_page.dart';
 import 'package:bet_it/utils/debug_logger.dart';
@@ -35,10 +36,11 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: InstanceManager.getFireAuthInstance().currentUser == null ? const LoginPage() : const HomePage(),
+            home: InstanceManager.getAuthInstance().currentUser == null ? const LoginPage() : const HomePage(),
             routes: {
               '/register': (context) => const RegisterPage(),
               '/profile': (context) => const ProfilePage(),
+              '/myaccount': (context) => const MyAccount(),
               '/home': (context) => const HomePage(),
               '/login': (context) => const LoginPage(),
             },
