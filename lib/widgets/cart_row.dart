@@ -37,48 +37,45 @@ class _CartRowState extends State<CartRow> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 15.0),
-                        child: Column(
+                        child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "Cote",
+                              "Cote: ",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(widget.bet.match.coteT1.toString()),
+                            Text(widget.bet.selectedTeamCote.toString()),
                           ],
                         ),
                       ),
-                      Padding(
+                      cartManager.isSimpleSelected ? Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Container(
+                          width: 250,
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: SizedBox(
-                            width: 250,
-                            child: TextFormField(
-                              initialValue: "0",
-                              onChanged: (value) {
-                                if(value == "") {
-                                  cart.modifyBetValue(widget.bet.betId, 0.0);
-                                } else {
-                                  cart.modifyBetValue(widget.bet.betId, double.parse(value));
-                                }
-                              },
-                              textAlignVertical: TextAlignVertical.center,
-                              textAlign: TextAlign.start,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.all(5.0),
-                                hintText: "Saisis ta mise",
-                                suffixIcon: Icon(Icons.euro),
-                              ),
+                          child: TextFormField(
+                            initialValue: "0",
+                            onChanged: (value) {
+                              if(value == "") {
+                                cart.modifyBetValue(widget.bet.betId, 0.0);
+                              } else {
+                                cart.modifyBetValue(widget.bet.betId, double.parse(value));
+                              }
+                            },
+                            textAlignVertical: TextAlignVertical.center,
+                            textAlign: TextAlign.start,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.all(5.0),
+                              hintText: "Saisis ta mise",
+                              suffixIcon: Icon(Icons.euro),
                             ),
                           ),
                         ),
-                      ),
+                      ) : const SizedBox.shrink(),
                     ],
                   )
                 ],

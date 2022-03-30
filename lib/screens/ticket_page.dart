@@ -17,7 +17,7 @@ class _MyTicketPage extends State<MyTicketPage> {
         length: 3,
         child: Scaffold(
           extendBodyBehindAppBar: true,
-          backgroundColor: Color(0xFF121212),
+          backgroundColor: const Color(0xFF121212),
           appBar: AppBar(
             shadowColor: Colors.transparent,
             bottom: const TabBar(
@@ -33,7 +33,7 @@ class _MyTicketPage extends State<MyTicketPage> {
             physics: const NeverScrollableScrollPhysics(),
             children: [
               const CartPage(),
-              Center(child: Text("ok")),
+              const Center(child: Text("ok")),
               FinishedPage()
             ],
           ),

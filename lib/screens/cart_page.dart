@@ -1,5 +1,6 @@
 import 'package:bet_it/constants.dart';
 import 'package:bet_it/global.dart';
+import 'package:bet_it/model/bet.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatefulWidget {
@@ -10,14 +11,13 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  bool isSimpleSelected = true;
-
   @override
   void initState() {
     cart.addListener(() {
       if (mounted) setState(() => Null);
-      cartManager.computeTotalBet();
+      if(cartManager.isSimpleSelected) cartManager.computeTotalBet();
       cartManager.computePotentialReward();
+      cartManager.computeTotalCote();
     });
     super.initState();
   }
@@ -51,14 +51,14 @@ class _CartPageState extends State<CartPage> {
         children: [
           Expanded(
             child: InkWell(
-              onTap: () => setState(() => isSimpleSelected = true),
+              onTap: () => setState(() => cartManager.isSimpleSelected = true),
               child: Container(
                 alignment: Alignment.center,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                  color: isSimpleSelected ? Colors.blue : Colors.white,
+                  color: cartManager.isSimpleSelected ? Colors.blue : Colors.white,
                   border: Border.all(
-                    color: isSimpleSelected ? Colors.transparent : Colors.blue,
+                    color: cartManager.isSimpleSelected ? Colors.transparent : Colors.blue,
                   ),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -68,7 +68,7 @@ class _CartPageState extends State<CartPage> {
                 child: Text(
                   "Simple",
                   style: TextStyle(
-                    color: isSimpleSelected ? whiteForegroundColor : Colors.blue,
+                    color: cartManager.isSimpleSelected ? whiteForegroundColor : Colors.blue,
                     fontSize: 17,
                   ),
                 ),
@@ -77,15 +77,21 @@ class _CartPageState extends State<CartPage> {
           ),
           Expanded(
             child: InkWell(
-              onTap: () => setState(() => isSimpleSelected = false),
+              onTap: () {
+                setState(() {
+                  cartManager.isSimpleSelected = false;
+                  cartManager.resetPotentialReward();
+                  cartManager.computeTotalCote();
+                });
+              },
               child: Container(
                 alignment: Alignment.center,
                 height: double.infinity,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: isSimpleSelected ? Colors.blue : Colors.transparent,
+                    color: cartManager.isSimpleSelected ? Colors.blue : Colors.transparent,
                   ),
-                  color: isSimpleSelected ? Colors.white : Colors.blue,
+                  color: cartManager.isSimpleSelected ? Colors.white : Colors.blue,
                   borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(20),
                     bottomRight: Radius.circular(20),
@@ -94,7 +100,7 @@ class _CartPageState extends State<CartPage> {
                 child: Text(
                   "Combiné",
                   style: TextStyle(
-                    color: isSimpleSelected ? Colors.blue : whiteForegroundColor,
+                    color: cartManager.isSimpleSelected ? Colors.blue : whiteForegroundColor,
                     fontSize: 17,
                   ),
                 ),
@@ -126,49 +132,134 @@ class _CartPageState extends State<CartPage> {
         ],
       ),
       width: MediaQuery.of(context).size.width,
-      height: 120,
+      height: 130,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Text("Mise totale: "),
-                  Text(
-                    "${cart.totalBet}",
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const Text(" beties"),
-                ],
-              ),
-              Row(
-                children: [
-                  const Text("Gain total: "),
-                  Text(
-                    cart.potentialReward.toStringAsFixed(3),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const Text(" beties"),
-                ],
-              ),
+              cartManager.isSimpleSelected ? buildSimpleBetColumn() : buildCombinedBetColumn(),
+              !cartManager.isSimpleSelected ? buildBetFieldCombined() : const SizedBox.shrink(),
             ],
           ),
-          Container(
-            color: Colors.blueAccent,
-            width: MediaQuery.of(context).size.width,
-            child: TextButton(
-              onPressed: () {},
+          InkWell(
+            onTap: () async {
+              if(cartManager.isSimpleSelected){
+                if(await cartManager.saveBetsRangeInDatabase(cart.betList)){
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Super !"),
+                        content: const Text("Vos paris ont été enregistrés"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("D'accord"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+
+                }
+              }
+            },
+            child: Container(
+              color: Colors.blueAccent,
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              alignment: Alignment.center,
               child: const Text(
                 "Parier",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Container buildBetFieldCombined() {
+    return Container(
+      height: 35,
+      width: 150,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
+        textAlign: TextAlign.start,
+        keyboardType: TextInputType.number,
+        initialValue: "0",
+        decoration: const InputDecoration(
+          hintText: "Saisis ta mise",
+        ),
+        onChanged: (value) {
+          if (value == "") {
+            cart.modifyCombinedBetValue(0.0);
+          } else {
+            cart.modifyCombinedBetValue(double.parse(value));
+          }
+        },
+      ),
+    );
+  }
+
+  Widget buildCombinedBetColumn() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text("Côte totale: "),
+            Text(
+              cart.totalCote.toStringAsFixed(2),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        buildPotentialReward(),
+      ],
+    );
+  }
+
+  Column buildSimpleBetColumn() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text("Mise totale: "),
+            Text(
+              "${cart.totalBet}",
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const Text(" beties"),
+          ],
+        ),
+        buildPotentialReward(),
+      ],
+    );
+  }
+
+  Row buildPotentialReward() {
+    return Row(
+      children: [
+        const Text("Gain potentiel: "),
+        Text(
+          cart.potentialReward.toStringAsFixed(2),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const Text(" beties"),
+      ],
     );
   }
 }

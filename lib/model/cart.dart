@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class Cart with ChangeNotifier {
   double totalBet = 0;
+  double totalCote = 0;
   double potentialReward = 0;
 
   final List<Bet> _betList = [];
@@ -19,6 +20,12 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
+  void modifyCombinedBetValue(double value) {
+    totalBet = value;
+    DebugLogger.debugLog("cart_manager.dart", "modifyCombinedBetValue", "Modify totalbet $totalBet", 2);
+    notifyListeners();
+  }
+
   void addBet(Bet b){
     _betList.add(b);
     notifyListeners();
@@ -28,5 +35,4 @@ class Cart with ChangeNotifier {
     _betList.removeWhere((bet) => bet.betId == betId);
     notifyListeners();
   }
-
 }
