@@ -1,6 +1,7 @@
 import 'package:bet_it/constants.dart';
 import 'package:bet_it/global.dart';
 import 'package:bet_it/model/bet.dart';
+import 'package:bet_it/utils/debug_logger.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatefulWidget {
@@ -11,11 +12,13 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  final TextEditingController combinedBetField = TextEditingController(text: "0");
+
   @override
   void initState() {
     cart.addListener(() {
       if (mounted) setState(() => Null);
-      if(cartManager.isSimpleSelected) cartManager.computeTotalBet();
+      if (cartManager.isSimpleSelected) cartManager.computeTotalBet();
       cartManager.computePotentialReward();
       cartManager.computeTotalCote();
     });
@@ -139,36 +142,15 @@ class _CartPageState extends State<CartPage> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               cartManager.isSimpleSelected ? buildSimpleBetColumn() : buildCombinedBetColumn(),
               !cartManager.isSimpleSelected ? buildBetFieldCombined() : const SizedBox.shrink(),
             ],
           ),
           InkWell(
-            onTap: () async {
-              if(cartManager.isSimpleSelected){
-                if(await cartManager.saveBetsRangeInDatabase(cart.betList)){
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text("Super !"),
-                        content: const Text("Vos paris ont été enregistrés"),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text("D'accord"),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                } else {
-
-                }
-              }
+            onTap: () {
+              submitBet(context);
             },
             child: Container(
               color: Colors.blueAccent,
@@ -186,21 +168,74 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
+  Future<void> submitBet(BuildContext context) async {
+    if (cartManager.isSimpleSelected) {
+      if (await cartManager.saveBetsRangeInDatabase(cart.getBetList())) {
+        buildShowDialog(context, "Super", "Vos paris ont été enregistrés");
+        resetCart();
+      } else {
+        buildShowDialog(context, "Oups", "Les paris n'ont pas été sauvegardé.");
+      }
+    } else {
+      if (await cartManager.saveCombinedBet(
+        cart.getBetList().map((e) => e.match.id).toList(),
+        cart.getBetList().map((e) => e.selectedTeam.teamId).toList(),
+        cart.potentialReward,
+        double.parse(combinedBetField.text),
+      )) {
+        buildShowDialog(context, "Bravo !", "Vos paris ont été enregistrés");
+        resetCart();
+      } else {
+        buildShowDialog(context, "Oups", "Les paris n'ont pas été sauvegardé.");
+      }
+    }
+  }
+
+  void resetCart() {
+    setState(() {
+      cartManager.clearCart();
+      combinedBetField.text = "0";
+    });
+  }
+
+  Future<dynamic> buildShowDialog(BuildContext context, String title, String body) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(body),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("D'accord"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Container buildBetFieldCombined() {
     return Container(
-      height: 35,
+      alignment: Alignment.center,
+      height: 40,
       width: 150,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextFormField(
-        textAlignVertical: TextAlignVertical.center,
-        textAlign: TextAlign.start,
+        controller: combinedBetField,
+        enabled: cart.getBetList().isNotEmpty,
         keyboardType: TextInputType.number,
-        initialValue: "0",
+        textAlignVertical: TextAlignVertical.top,
         decoration: const InputDecoration(
           hintText: "Saisis ta mise",
+          contentPadding: EdgeInsets.only(left: 5),
+          border: InputBorder.none,
         ),
         onChanged: (value) {
           if (value == "") {
@@ -250,13 +285,14 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Row buildPotentialReward() {
+  Widget buildPotentialReward() {
     return Row(
       children: [
         const Text("Gain potentiel: "),
         Text(
           cart.potentialReward.toStringAsFixed(2),
           style: const TextStyle(fontWeight: FontWeight.bold),
+          overflow: TextOverflow.fade,
         ),
         const Text(" beties"),
       ],

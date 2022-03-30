@@ -11,27 +11,38 @@ import 'package:flutter/material.dart';
 class CartManager {
   bool isSimpleSelected = true;
 
-  bool saveBetsInDatabase(Bet bet) {
-    InstanceManager.getDatabaseInstance().collection("bets").add(
-      {
-        "owner": InstanceManager.getDatabaseInstance()
-            .collection("users")
-            .doc(InstanceManager.getAuthInstance().currentUser!.uid),
-        "selectedteamid": bet.selectedTeam.teamId,
-        "matchid": bet.match.id,
-        "betiesamount": bet.amount,
-        "selectedteamcote": bet.selectedTeamCote,
-      },
-    );
-    return false;
+  Future<bool> saveCombinedBet(
+      List<String> matchList, List<String> selectedTeamIdList, double totalCote, double mise) async {
+    bool result = false;
+    if (matchList.isNotEmpty && mise > 0) {
+      Map<String, String> betMatchMap = {};
+
+      for (var i = 0; i < matchList.length; i++) {
+        betMatchMap.putIfAbsent(matchList[i], () => selectedTeamIdList[i]);
+      }
+
+      await InstanceManager.getDatabaseInstance().collection("bets").add(
+        {
+          "isCombined": true,
+          "ownerid": InstanceManager.getDatabaseInstance()
+              .collection("users")
+              .doc(InstanceManager.getAuthInstance().currentUser!.uid),
+          "selectedteams": betMatchMap,
+          "betiesamount": mise,
+          "totalcote": double.parse(totalCote.toStringAsFixed(2)),
+        },
+      );
+      result = true;
+    }
+    return result;
   }
 
   Future<bool> saveBetsRangeInDatabase(List<Bet> betList) async {
     bool insertResult = false;
 
-    if(betList.isNotEmpty){
+    if (betList.isNotEmpty) {
       for (final bet in betList) {
-        if(await BetManager.checkBetNotInDB(bet)){
+        if (await BetManager.checkBetNotInDB(bet)) {
           InstanceManager.getDatabaseInstance().collection("bets").add(
             {
               "ownerid": InstanceManager.getDatabaseInstance()
@@ -55,19 +66,19 @@ class CartManager {
   }
 
   List<Widget> generateWidgetFromList() {
-    return (cart.betList as List<Bet>).map((bet) => CartRow(bet: bet)).toList();
+    return cart.getBetList().map((bet) => CartRow(bet: bet)).toList();
   }
 
   void computeTotalBet() {
     cart.totalBet = 0;
-    for (final bet in cart.betList as List<Bet>) {
+    for (final bet in cart.getBetList()) {
       cart.totalBet += bet.amount;
     }
   }
 
   void computeTotalCote() {
     cart.totalCote = 1;
-    for (final bet in cart.betList as List<Bet>) {
+    for (final bet in cart.getBetList()) {
       cart.totalCote *= bet.selectedTeamCote;
     }
   }
@@ -75,7 +86,7 @@ class CartManager {
   void computePotentialReward() {
     if (isSimpleSelected) {
       cart.potentialReward = 0;
-      for (final bet in cart.betList as List<Bet>) {
+      for (final bet in cart.getBetList()) {
         cart.potentialReward += bet.amount * bet.selectedTeamCote;
       }
       DebugLogger.debugLog("cart_manager.dart", "computePotentialReward",
@@ -88,7 +99,7 @@ class CartManager {
   }
 
   bool addBetToCart(Team team, Match match, double cote) {
-    if ((cart.betList as List<Bet>).where((m) => m.match.id == match.id).isEmpty) {
+    if (cart.getBetList().where((m) => m.match.id == match.id).isEmpty) {
       cart.addBet(Bet(selectedTeam: team, match: match, selectedTeamCote: cote));
       return true;
     }
@@ -103,5 +114,11 @@ class CartManager {
   void resetPotentialReward() {
     cart.potentialReward = 0;
     cart.totalBet = 0;
+    cart.totalCote = 0;
+  }
+
+  void clearCart() {
+    cart.clearCart();
+    resetPotentialReward();
   }
 }

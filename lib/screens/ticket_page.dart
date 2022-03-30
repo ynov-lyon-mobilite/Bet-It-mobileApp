@@ -10,7 +10,21 @@ class MyTicketPage extends StatefulWidget {
   State<MyTicketPage> createState() => _MyTicketPage();
 }
 
-class _MyTicketPage extends State<MyTicketPage> {
+class _MyTicketPage extends State<MyTicketPage> with SingleTickerProviderStateMixin{
+  late TabController _tabController;
+
+  List<Widget> tabs = const [
+    Tab(text: "Panier"),
+    Tab(text: "En Cours"),
+    Tab(text: "Terminé(s)"),
+  ];
+  
+  @override
+  void initState() {
+    _tabController = TabController(length: tabs.length, vsync: this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -20,12 +34,9 @@ class _MyTicketPage extends State<MyTicketPage> {
           backgroundColor: const Color(0xFF121212),
           appBar: AppBar(
             shadowColor: Colors.transparent,
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: "Panier"),
-                Tab(text: "En Cours"),
-                Tab(text: "Terminé(s)"),
-              ],
+            bottom: TabBar(
+              controller: _tabController,
+              tabs: tabs
             ),
             title: const Text('Panier'),
           ),

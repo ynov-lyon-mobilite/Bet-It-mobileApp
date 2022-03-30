@@ -8,7 +8,7 @@ class Cart with ChangeNotifier {
   double potentialReward = 0;
 
   final List<Bet> _betList = [];
-  get betList => List<Bet>.unmodifiable(_betList);
+  List<Bet> getBetList() => List.unmodifiable(_betList);
 
   Bet getBetValueWithId(String betId){
     return _betList.where((b) => b.betId == betId).first;
@@ -35,4 +35,6 @@ class Cart with ChangeNotifier {
     _betList.removeWhere((bet) => bet.betId == betId);
     notifyListeners();
   }
+
+  void clearCart() => _betList.clear();
 }
