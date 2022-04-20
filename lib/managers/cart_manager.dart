@@ -48,7 +48,7 @@ class CartManager {
               "ownerid": InstanceManager.getDatabaseInstance()
                   .collection("users")
                   .doc(InstanceManager.getAuthInstance().currentUser!.uid),
-              "selectedteamid": bet.selectedTeam.teamId,
+              "selectedteamid": bet.selectedTeam.name,
               "matchid": bet.match.id,
               "betiesamount": bet.amount,
               "selectedteamcote": bet.selectedTeamCote,

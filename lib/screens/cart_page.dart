@@ -178,7 +178,7 @@ class _CartPageState extends State<CartPage> {
       }
     } else {
       if (await cartManager.saveCombinedBet(
-        cart.getBetList().map((e) => e.match.id).toList(),
+        cart.getBetList().map((e) => e.match.id.toString()).toList(),
         cart.getBetList().map((e) => e.selectedTeam.teamId).toList(),
         cart.potentialReward,
         double.parse(combinedBetField.text),

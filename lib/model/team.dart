@@ -4,14 +4,7 @@ import 'package:uuid/uuid.dart';
 class Team {
   late String teamId;
   String name;
-  String imageUrl;
-  Color teamBannerColor;
+  String? imageUrl;
 
-  Team({
-    required this.name,
-    required this.imageUrl,
-    required this.teamBannerColor,
-  }){
-    teamId = const Uuid().v4();
-  }
+  Team({required this.name, this.imageUrl});
 }
