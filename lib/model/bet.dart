@@ -18,4 +18,9 @@ class Bet {
   void setAmount(double a){
     if(a >= 0) _amount = a;
   }
+
+  Bet.fromParameters(Map<String, dynamic> data, this.match, this.selectedTeam){
+    betId = data["betid"];
+    _amount = data["betiesamount"];
+  }
 }

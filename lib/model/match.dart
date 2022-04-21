@@ -1,59 +1,36 @@
-import 'dart:convert';
-
 import 'package:bet_it/model/team.dart';
+import 'package:bet_it/model/tournament_start_date.dart';
+import 'package:bet_it/utils/debug_logger.dart';
 
 class Match {
-  int? id;
-  MatchDate? matchDate;
-  String? matchName;
-  String? tournamentName;
-  int? bestOf;
-  dynamic phase;
-  Team? team1;
-  Team? team2;
-  String? winner;
-  double coteT1;
-  double coteT2;
+  late int id;
+  late TournamentStartDate? matchDate;
+  late String matchName;
+  late String tournamentName;
+  late Team team1;
+  late Team team2;
+  double coteT1 = 0;
+  double coteT2 = 0;
+  late String? winner;
 
   Match({
-    this.id,
-    this.matchDate,
-    this.matchName,
-    this.tournamentName,
-    this.bestOf,
-    this.phase,
-    this.team1,
-    this.team2,
+    required this.id,
+    required this.matchDate,
+    required this.matchName,
+    required this.tournamentName,
+    required this.team1,
+    required this.team2,
     this.winner,
-    this.coteT1 = 0,
-    this.coteT2 = 0,
   });
 
-  factory Match.fromJson(Map<String, dynamic> json) => Match(
-    id: json["id"],
-    matchName: json["match_name"],
-    tournamentName: json["tournament_name"],
-    bestOf: json["best_of"],
-    team1: Team(name: json["team_1"]),
-    team2: Team(name: json["team_2"]),
-    winner: json["winner"],
-  );
-}
-
-class MatchDate {
-  DateTime? date;
-  int? timezoneType;
-  String? timezone;
-
-  MatchDate({
-    this.date,
-    this.timezoneType,
-    this.timezone,
-  });
-
-  factory MatchDate.fromJson(Map<String, dynamic> json) => MatchDate(
-    date: DateTime.parse(json["date"]),
-    timezoneType: json["timezone_type"],
-    timezone: json["timezone"],
-  );
+  Match.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    matchName = json['match_name'];
+    tournamentName = json['tournament_name'];
+    team1 = Team.fromJson(json['team_1']);
+    team2 = Team.fromJson(json['team_2']);
+    winner = json['winner'];
+    coteT1 = json['odd_team_1'];
+    coteT2 = json['odd_team_2'];
+  }
 }

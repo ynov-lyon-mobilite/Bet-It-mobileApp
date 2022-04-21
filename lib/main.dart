@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
           DebugLogger.debugLog("main.dart", "build", "Firebase initialized", 3);
 
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

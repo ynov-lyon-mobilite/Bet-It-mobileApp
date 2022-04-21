@@ -7,15 +7,16 @@ import 'package:bet_it/model/team.dart';
 import 'package:bet_it/utils/debug_logger.dart';
 import 'package:bet_it/widgets/cart_row.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class CartManager {
   bool isSimpleSelected = true;
 
   Future<bool> saveCombinedBet(
-      List<String> matchList, List<String> selectedTeamIdList, double totalCote, double mise) async {
+      List<String> matchList, List<int> selectedTeamIdList, double totalCote, double mise) async {
     bool result = false;
     if (matchList.isNotEmpty && mise > 0) {
-      Map<String, String> betMatchMap = {};
+      Map<String, int> betMatchMap = {};
 
       for (var i = 0; i < matchList.length; i++) {
         betMatchMap.putIfAbsent(matchList[i], () => selectedTeamIdList[i]);
@@ -24,9 +25,7 @@ class CartManager {
       await InstanceManager.getDatabaseInstance().collection("bets").add(
         {
           "isCombined": true,
-          "ownerid": InstanceManager.getDatabaseInstance()
-              .collection("users")
-              .doc(InstanceManager.getAuthInstance().currentUser!.uid),
+          "ownerid": InstanceManager.getAuthInstance().currentUser!.uid,
           "selectedteams": betMatchMap,
           "betiesamount": mise,
           "totalcote": double.parse(totalCote.toStringAsFixed(2)),
@@ -45,10 +44,9 @@ class CartManager {
         if (await BetManager.checkBetNotInDB(bet)) {
           InstanceManager.getDatabaseInstance().collection("bets").add(
             {
-              "ownerid": InstanceManager.getDatabaseInstance()
-                  .collection("users")
-                  .doc(InstanceManager.getAuthInstance().currentUser!.uid),
-              "selectedteamid": bet.selectedTeam.name,
+              "betid": const Uuid().v4(),
+              "ownerid": InstanceManager.getAuthInstance().currentUser!.uid,
+              "selectedteamid": bet.selectedTeam.id,
               "matchid": bet.match.id,
               "betiesamount": bet.amount,
               "selectedteamcote": bet.selectedTeamCote,

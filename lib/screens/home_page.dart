@@ -1,7 +1,9 @@
 import 'package:bet_it/constants.dart';
 import 'package:bet_it/data/match_repository.dart';
+import 'package:bet_it/data/tournament_repository.dart';
 import 'package:bet_it/global.dart';
 import 'package:bet_it/model/instance_manager.dart';
+import 'package:bet_it/model/upcoming_tournaments.dart';
 import 'package:bet_it/model/user.dart';
 import 'package:bet_it/screens/ticket_page.dart';
 import 'package:bet_it/utils/debug_logger.dart';
@@ -19,10 +21,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: MatchRepository().getAllMatch(),
-      builder: (context, snapshot){
-        if(snapshot.hasData){
-          DebugLogger.debugLog("home_page.dart", "build", (snapshot.data as List).length.toString(), 2);
+      future: TournamentRepository.getUpcomingTournament(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Tournament> tournamentList = snapshot.data! as List<Tournament>;
+
           return Scaffold(
             backgroundColor: backgroundColor,
             extendBody: true,
@@ -75,7 +78,7 @@ class _HomePageState extends State<HomePage> {
             ),
             resizeToAvoidBottomInset: false,
             body: ListView.builder(
-              itemCount: 1,
+              itemCount: tournamentList.length,
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
@@ -89,11 +92,11 @@ class _HomePageState extends State<HomePage> {
                       const Padding(
                         padding: EdgeInsets.only(bottom: padding10),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 10.0),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text(
-                          "leagueList.elementAt(index).name",
-                          style: TextStyle(
+                          tournamentList.elementAt(index).tournamentName!,
+                          style: const TextStyle(
                             color: foregroundColor,
                             fontSize: fontSize15,
                             fontWeight: FontWeight.bold,
@@ -104,14 +107,9 @@ class _HomePageState extends State<HomePage> {
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: (snapshot.data as List).length,
+                          itemCount: tournamentList.elementAt(index).matches!.length,
                           itemBuilder: (context, matchIndex) {
-                            // récupérer les league puis les match par league
-                            final matchList = leagueList.elementAt(index).matchList;
-                            DebugLogger.debugLog("home_page", "ListView.builder", "${(snapshot.data as List).length}", 2);
-                            return MatchRow(
-                              match: (snapshot.data as List).elementAt(matchIndex),
-                            );
+                            return MatchRow(match: tournamentList.elementAt(index).matches!.elementAt(matchIndex));
                           },
                         ),
                       ),
@@ -173,7 +171,9 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
@@ -185,10 +185,7 @@ class _HomePageState extends State<HomePage> {
 
     var usersCollection = InstanceManager.getDatabaseInstance().collection("users");
 
-    usersCollection
-        .doc(InstanceManager.getAuthInstance().currentUser!.uid)
-        .get()
-        .then((userFromDb) {
+    usersCollection.doc(InstanceManager.getAuthInstance().currentUser!.uid).get().then((userFromDb) {
       currentUser = User(
         surname: userFromDb.get("surname"),
         name: userFromDb.get("name"),

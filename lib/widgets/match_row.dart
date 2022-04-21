@@ -44,13 +44,13 @@ class _MatchRowState extends State<MatchRow> {
       width: 150,
       child: Column(
         children: [
-          widget.match.team1?.imageUrl != null ? Image.network(widget.match.team1!.imageUrl!, height: 50,) : Image.asset("assets/default-image.png", height: 50,),
-          Text("${widget.match.team1?.name}", overflow: TextOverflow.ellipsis),
+          widget.match.team1.logo != null ? Image.network(widget.match.team1.logo!, height: 50) : Image.asset("assets/default-image.png", height: 50),
+          Text("${widget.match.team1.teamName}", overflow: TextOverflow.ellipsis),
           SizedBox(
             width: buttonWidth,
             child: ElevatedButton(
               onPressed: () {
-                if (!cartManager.addBetToCart(widget.match.team1!, widget.match, widget.match.coteT1)) {
+                if (!cartManager.addBetToCart(widget.match.team1, widget.match, widget.match.coteT1)) {
                   showDialog(
                     context: context,
                     builder: (context) {
@@ -83,13 +83,13 @@ class _MatchRowState extends State<MatchRow> {
       width: 150,
       child: Column(
         children: [
-          widget.match.team2?.imageUrl != null ? Image.network(widget.match.team2!.imageUrl!, height: 50,) : Image.asset("assets/default-image.png", height: 50,),
-          Text(widget.match.team2!.name, overflow: TextOverflow.ellipsis),
+          widget.match.team2.logo != null ? Image.network(widget.match.team2.logo!, height: 50,) : Image.asset("assets/default-image.png", height: 50,),
+          Text(widget.match.team2.teamName!, overflow: TextOverflow.ellipsis),
           SizedBox(
             width: buttonWidth,
             child: ElevatedButton(
               onPressed: () {
-                if (!cartManager.addBetToCart(widget.match.team2!, widget.match, widget.match.coteT2)) {
+                if (!cartManager.addBetToCart(widget.match.team2, widget.match, widget.match.coteT2)) {
                   showDialog(
                     context: context,
                     builder: (context) {
@@ -137,7 +137,7 @@ class _MatchRowState extends State<MatchRow> {
         child: Center(
           child: RichText(
             text: TextSpan(
-              text: "${widget.match.team2?.name}",
+              text: "${widget.match.team2.teamName}",
               style: const TextStyle(
                 color: foregroundColor,
                 fontSize: fontSize18,
@@ -162,7 +162,7 @@ class _MatchRowState extends State<MatchRow> {
         child: Center(
           child: RichText(
             text: TextSpan(
-              text: "${widget.match.team1?.name}",
+              text: "${widget.match.team1.teamName}",
               style: const TextStyle(
                 fontSize: fontSize18,
                 fontWeight: FontWeight.bold,

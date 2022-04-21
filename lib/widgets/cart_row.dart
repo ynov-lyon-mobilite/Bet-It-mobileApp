@@ -26,11 +26,11 @@ class _CartRowState extends State<CartRow> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${widget.bet.match.team1?.name} vs ${widget.bet.match.team2?.name}",
+                    "${widget.bet.match.team1.teamName} vs ${widget.bet.match.team2.teamName}",
                     style: const TextStyle(color: Colors.grey, fontSize: 10),
                   ),
                   Text(
-                    "Resultat du match: " + widget.bet.selectedTeam.name,
+                    "Resultat du match: " + widget.bet.selectedTeam.teamName!,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Row(
