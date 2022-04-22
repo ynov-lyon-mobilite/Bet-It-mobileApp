@@ -3,7 +3,7 @@ import 'package:bet_it/global.dart';
 import 'package:bet_it/model/match.dart';
 import 'package:flutter/material.dart';
 
-class MatchRow extends StatelessWidget {
+class MatchRow extends StatefulWidget {
   final Match match;
 
   const MatchRow({
@@ -11,6 +11,11 @@ class MatchRow extends StatelessWidget {
     required this.match,
   }) : super(key: key);
 
+  @override
+  State<MatchRow> createState() => _MatchRowState();
+}
+
+class _MatchRowState extends State<MatchRow> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,81 +39,81 @@ class MatchRow extends StatelessWidget {
     );
   }
 
-  Column buildLeftTeamColumn(BuildContext context) {
-    return Column(
-      children: [
-        Image(
-          image: NetworkImage(match.team1.imageUrl),
-          height: 50,
-        ),
-        Text(match.team1.name),
-        SizedBox(
-          width: buttonWidth,
-          child: ElevatedButton(
-            onPressed: () {
-              if (!cartManager.addBetToCart(match.team1, match, match.coteT1)) {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Oups.."),
-                      content: const Text("Vous avez déjà parié sur ce match"),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text("D'accord"),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              } else {}
-            },
-            child: Text(match.coteT1.toString()),
+  buildLeftTeamColumn(BuildContext context) {
+    return SizedBox(
+      width: 150,
+      child: Column(
+        children: [
+          widget.match.team1.logo != null ? Image.network(widget.match.team1.logo!, height: 50) : Image.asset("assets/default-image.png", height: 50),
+          Text("${widget.match.team1.teamName}", overflow: TextOverflow.ellipsis),
+          SizedBox(
+            width: buttonWidth,
+            child: ElevatedButton(
+              onPressed: () {
+                if (!cartManager.addBetToCart(widget.match.team1, widget.match, widget.match.coteT1)) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Oups.."),
+                        content: const Text("Vous avez déjà parié sur ce match"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("D'accord"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {}
+              },
+              child: Text(widget.match.coteT1.toString()),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Column buildRightTeamColumn(BuildContext context) {
-    return Column(
-      children: [
-        Image(
-          image: NetworkImage(match.team2.imageUrl),
-          height: 50,
-        ),
-        Text(match.team2.name),
-        SizedBox(
-          width: buttonWidth,
-          child: ElevatedButton(
-            onPressed: () {
-              if (!cartManager.addBetToCart(match.team2, match, match.coteT2)) {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Oups.."),
-                      content: const Text("Vous avez déjà parié sur ce match"),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text("D'accord"),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              } else {}
-            },
-            child: Text(match.coteT2.toString()),
+  buildRightTeamColumn(BuildContext context) {
+    return SizedBox(
+      width: 150,
+      child: Column(
+        children: [
+          widget.match.team2.logo != null ? Image.network(widget.match.team2.logo!, height: 50,) : Image.asset("assets/default-image.png", height: 50,),
+          Text(widget.match.team2.teamName!, overflow: TextOverflow.ellipsis),
+          SizedBox(
+            width: buttonWidth,
+            child: ElevatedButton(
+              onPressed: () {
+                if (!cartManager.addBetToCart(widget.match.team2, widget.match, widget.match.coteT2)) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Oups.."),
+                        content: const Text("Vous avez déjà parié sur ce match"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("D'accord"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {}
+              },
+              child: Text(widget.match.coteT2.toString()),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -127,13 +132,12 @@ class MatchRow extends StatelessWidget {
       ///depend on font Size
       height: MediaQuery.of(context).size.height * 0.18,
       width: 30,
-      color: match.team2.teamBannerColor,
       child: RotatedBox(
         quarterTurns: 1,
         child: Center(
           child: RichText(
             text: TextSpan(
-              text: match.team2.name,
+              text: "${widget.match.team2.teamName}",
               style: const TextStyle(
                 color: foregroundColor,
                 fontSize: fontSize18,
@@ -153,13 +157,12 @@ class MatchRow extends StatelessWidget {
       ///depend on font Size
       height: MediaQuery.of(context).size.height * 0.18,
       width: 30,
-      color: match.team1.teamBannerColor,
       child: RotatedBox(
         quarterTurns: 3,
         child: Center(
           child: RichText(
             text: TextSpan(
-              text: match.team1.name,
+              text: "${widget.match.team1.teamName}",
               style: const TextStyle(
                 fontSize: fontSize18,
                 fontWeight: FontWeight.bold,

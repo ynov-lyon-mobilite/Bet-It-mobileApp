@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const  MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
           DebugLogger.debugLog("main.dart", "build", "Firebase initialized", 3);
 
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
