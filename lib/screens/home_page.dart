@@ -1,8 +1,10 @@
 import 'package:bet_it/constants.dart';
 import 'package:bet_it/data/match_repository.dart';
 import 'package:bet_it/data/tournament_repository.dart';
+import 'package:bet_it/data/tournaments_filter_tool.dart';
 import 'package:bet_it/global.dart';
 import 'package:bet_it/model/instance_manager.dart';
+import 'package:bet_it/model/match.dart';
 import 'package:bet_it/model/upcoming_tournaments.dart';
 import 'package:bet_it/model/user.dart';
 import 'package:bet_it/screens/ticket_page.dart';
@@ -21,10 +23,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: TournamentRepository.getUpcomingTournament(),
+      //future: TournamentRepository.getUpcomingTournament(),
+      future: MatchRepository.getAllMatch(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Tournament> tournamentList = snapshot.data! as List<Tournament>;
+          //List<Tournament> tournamentList = snapshot.data! as List<Tournament>;
+          List<Match> data = snapshot.data! as List<Match>;
+          final matchList = TournamentsFilterTool.filterMatchByTournamentsFromList(data);
 
           return Scaffold(
             backgroundColor: backgroundColor,
@@ -78,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             ),
             resizeToAvoidBottomInset: false,
             body: ListView.builder(
-              itemCount: tournamentList.length,
+              itemCount: matchList.keys.length,
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
@@ -95,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text(
-                          tournamentList.elementAt(index).tournamentName!,
+                          matchList.keys.elementAt(index),
                           style: const TextStyle(
                             color: foregroundColor,
                             fontSize: fontSize15,
@@ -107,9 +112,10 @@ class _HomePageState extends State<HomePage> {
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: tournamentList.elementAt(index).matches!.length,
+                          //itemCount: tournamentList.elementAt(index).matches!.length,
+                          itemCount: matchList.values.elementAt(index).length,
                           itemBuilder: (context, matchIndex) {
-                            return MatchRow(match: tournamentList.elementAt(index).matches!.elementAt(matchIndex));
+                            return MatchRow(match: matchList.values.elementAt(index).elementAt(matchIndex));
                           },
                         ),
                       ),

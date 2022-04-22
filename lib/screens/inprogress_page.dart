@@ -28,13 +28,14 @@ class _InProgressPageState extends State<InProgressPage> {
                   return Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                     child: Container(
-                      padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                      padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         border: Border.all(),
                         borderRadius: const BorderRadius.all(Radius.circular(5)),
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,6 +49,12 @@ class _InProgressPageState extends State<InProgressPage> {
                                 betList.elementAt(index).selectedTeam.teamName!,
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              const Text("Beties misés:"),
+                              Text("${betList.elementAt(index).amount}"),
                             ],
                           ),
                         ],

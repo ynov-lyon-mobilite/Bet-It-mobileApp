@@ -27,11 +27,10 @@ class MatchRepository {
       final resultList = jsonDecode(response.body)["upcoming_matches"] as List;
 
       for (final element in resultList) {
-        final match = Match.fromJson(element);
-        DebugLogger.debugLog("match_repository.dart", "getAllMatch()", "$match", 2);
-        matchList.add(match);
+        matchList.add(Match.fromJson(element));
       }
       return matchList;
+
     } else {
       DebugLogger.debugLog("match_repository.dart", "getAllMatch()", "FAIL: Status code: ${response.statusCode}", 2);
       return null;

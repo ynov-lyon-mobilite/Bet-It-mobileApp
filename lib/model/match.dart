@@ -30,7 +30,7 @@ class Match {
     team1 = Team.fromJson(json['team_1']);
     team2 = Team.fromJson(json['team_2']);
     winner = json['winner'];
-    coteT1 = json['odd_team_1'];
-    coteT2 = json['odd_team_2'];
+    coteT1 = json['odd_team_1'] is String ? 0 : json['odd_team_1'];
+    coteT2 = json['odd_team_2'] is String ? 0 : json['odd_team_2'];
   }
 }

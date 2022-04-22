@@ -39,10 +39,10 @@ dependencies:
   google_fonts: ^2.3.1
   step_progress_indicator: ^1.0.2
   ansicolor: ^2.0.1
-  country_picker: ^2.0.13
+  country_picker: ^2.0.14
   email_validator: ^2.0.1
   uuid: ^3.0.6
-
+  collection: ^1.15.0
   http: ^0.13.4
 
   firebase_auth: ^3.3.13
