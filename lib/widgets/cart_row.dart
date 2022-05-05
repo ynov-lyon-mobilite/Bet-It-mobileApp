@@ -1,9 +1,9 @@
 import 'package:bet_it/global.dart';
-import 'package:bet_it/model/bet.dart';
+import 'package:bet_it/model/bet_model/simple_bet.dart';
 import 'package:flutter/material.dart';
 
 class CartRow extends StatefulWidget {
-  final Bet bet;
+  final SimpleBet bet;
 
   const CartRow({Key? key, required this.bet}) : super(key: key);
 

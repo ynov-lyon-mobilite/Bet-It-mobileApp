@@ -1,14 +1,11 @@
 import 'package:bet_it/constants.dart';
 import 'package:bet_it/data/match_repository.dart';
-import 'package:bet_it/data/tournament_repository.dart';
 import 'package:bet_it/data/tournaments_filter_tool.dart';
 import 'package:bet_it/global.dart';
 import 'package:bet_it/model/instance_manager.dart';
 import 'package:bet_it/model/match.dart';
-import 'package:bet_it/model/upcoming_tournaments.dart';
 import 'package:bet_it/model/user.dart';
 import 'package:bet_it/screens/ticket_page.dart';
-import 'package:bet_it/utils/debug_logger.dart';
 import 'package:bet_it/widgets/match_row.dart';
 import 'package:flutter/material.dart';
 
@@ -23,12 +20,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      //future: TournamentRepository.getUpcomingTournament(),
       future: MatchRepository.getAllMatch(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          //List<Tournament> tournamentList = snapshot.data! as List<Tournament>;
           List<Match> data = snapshot.data! as List<Match>;
+
+          if(data.isEmpty) data = testMatchList!;
+
           final matchList = TournamentsFilterTool.filterMatchByTournamentsFromList(data);
 
           return Scaffold(
@@ -38,35 +36,7 @@ class _HomePageState extends State<HomePage> {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.blueAccent,
               actions: <Widget>[
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: padding20),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: padding10),
-                        child: Row(
-                          children: const [
-                            Text(
-                              "1000",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: fontSize15,
-                              ),
-                            ),
-                            Image(
-                              image: AssetImage("assets/betty.png"),
-                              width: 30,
-                              height: 30,
-                              fit: BoxFit.fill,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                buildBetiesAmountAndProfilPage(),
                 Padding(
                   padding: const EdgeInsets.only(right: padding20),
                   child: GestureDetector(
@@ -82,48 +52,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             resizeToAvoidBottomInset: false,
-            body: ListView.builder(
-              itemCount: matchList.keys.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: backgroundColor,
-                    border: Border.all(),
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: padding10),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text(
-                          matchList.keys.elementAt(index),
-                          style: const TextStyle(
-                            color: foregroundColor,
-                            fontSize: fontSize15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          //itemCount: tournamentList.elementAt(index).matches!.length,
-                          itemCount: matchList.values.elementAt(index).length,
-                          itemBuilder: (context, matchIndex) {
-                            return MatchRow(match: matchList.values.elementAt(index).elementAt(matchIndex));
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+            body: buildGlobalMatchesAndTournamentsList(matchList),
             floatingActionButton: FloatingActionButton(
               backgroundColor: Colors.blueAccent,
               //Floating action button on Scaffold
@@ -136,45 +65,7 @@ class _HomePageState extends State<HomePage> {
               child: const Icon(Icons.receipt_long_rounded),
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: BottomAppBar(
-              color: Colors.blueAccent,
-              shape: const CircularNotchedRectangle(),
-              notchMargin: 5,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    icon: const Icon(
-                      Icons.local_fire_department,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.print,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.people,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
+            bottomNavigationBar: buildBottomBar(),
           );
         } else {
           return const Center(
@@ -182,6 +73,133 @@ class _HomePageState extends State<HomePage> {
           );
         }
       },
+    );
+  }
+
+  Center buildBetiesAmountAndProfilPage() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(right: padding20),
+        child: GestureDetector(
+          onTap: () {},
+          child: Padding(
+            padding: const EdgeInsets.only(right: padding10),
+            child: Row(
+              children: const [
+                Text(
+                  "1000",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: fontSize15,
+                  ),
+                ),
+                Image(
+                  image: AssetImage("assets/betty.png"),
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.fill,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  BottomAppBar buildBottomBar() {
+    return BottomAppBar(
+      color: Colors.blueAccent,
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 5,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.local_fire_department,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.print,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.people,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  ListView buildGlobalMatchesAndTournamentsList(Map<String, List<Match>> matchList) {
+    return ListView.builder(
+      itemCount: matchList.keys.length,
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            border: Border.all(),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(bottom: padding10),
+              ),
+              buildTournamentName(matchList, index),
+              buildTournamentMatchesList(matchList, index),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Flexible buildTournamentMatchesList(Map<String, List<Match>> matchList, int index) {
+    return Flexible(
+      child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        //itemCount: tournamentList.elementAt(index).matches!.length,
+        itemCount: matchList.values.elementAt(index).length,
+        itemBuilder: (context, matchIndex) {
+          return MatchRow(match: matchList.values.elementAt(index).elementAt(matchIndex));
+        },
+      ),
+    );
+  }
+
+  Padding buildTournamentName(Map<String, List<Match>> matchList, int index) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Text(
+        matchList.keys.elementAt(index),
+        style: const TextStyle(
+          color: foregroundColor,
+          fontSize: fontSize15,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 

@@ -1,7 +1,5 @@
 import 'package:bet_it/constants.dart';
 import 'package:bet_it/global.dart';
-import 'package:bet_it/model/bet.dart';
-import 'package:bet_it/utils/debug_logger.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatefulWidget {
@@ -52,65 +50,73 @@ class _CartPageState extends State<CartPage> {
       margin: const EdgeInsets.all(10),
       child: Row(
         children: [
-          Expanded(
-            child: InkWell(
-              onTap: () => setState(() => cartManager.isSimpleSelected = true),
-              child: Container(
-                alignment: Alignment.center,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  color: cartManager.isSimpleSelected ? Colors.blue : Colors.white,
-                  border: Border.all(
-                    color: cartManager.isSimpleSelected ? Colors.transparent : Colors.blue,
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                  ),
-                ),
-                child: Text(
-                  "Simple",
-                  style: TextStyle(
-                    color: cartManager.isSimpleSelected ? whiteForegroundColor : Colors.blue,
-                    fontSize: 17,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  cartManager.isSimpleSelected = false;
-                  cartManager.resetPotentialReward();
-                  cartManager.computeTotalCote();
-                });
-              },
-              child: Container(
-                alignment: Alignment.center,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: cartManager.isSimpleSelected ? Colors.blue : Colors.transparent,
-                  ),
-                  color: cartManager.isSimpleSelected ? Colors.white : Colors.blue,
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                ),
-                child: Text(
-                  "Combiné",
-                  style: TextStyle(
-                    color: cartManager.isSimpleSelected ? Colors.blue : whiteForegroundColor,
-                    fontSize: 17,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          buildSimpleBtn(),
+          buildCombinedBtn(),
         ],
+      ),
+    );
+  }
+
+  Expanded buildCombinedBtn() {
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            cartManager.isSimpleSelected = false;
+            cartManager.resetPotentialReward();
+            cartManager.computeTotalCote();
+          });
+        },
+        child: Container(
+          alignment: Alignment.center,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: cartManager.isSimpleSelected ? Colors.blue : Colors.transparent,
+            ),
+            color: cartManager.isSimpleSelected ? Colors.white : Colors.blue,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          child: Text(
+            "Combiné",
+            style: TextStyle(
+              color: cartManager.isSimpleSelected ? Colors.blue : whiteForegroundColor,
+              fontSize: 17,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded buildSimpleBtn() {
+    return Expanded(
+      child: InkWell(
+        onTap: () => setState(() => cartManager.isSimpleSelected = true),
+        child: Container(
+          alignment: Alignment.center,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: cartManager.isSimpleSelected ? Colors.blue : Colors.white,
+            border: Border.all(
+              color: cartManager.isSimpleSelected ? Colors.transparent : Colors.blue,
+            ),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+            ),
+          ),
+          child: Text(
+            "Simple",
+            style: TextStyle(
+              color: cartManager.isSimpleSelected ? whiteForegroundColor : Colors.blue,
+              fontSize: 17,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -177,17 +183,19 @@ class _CartPageState extends State<CartPage> {
         buildShowDialog(context, "Oups", "Les paris n'ont pas été sauvegardé.");
       }
     } else {
-      if (await cartManager.saveCombinedBet(
-        cart.getBetList().map((e) => e.match.id.toString()).toList(),
+      await cartManager.saveCombinedBet(
+        cart.getBetList().map((e) => e.match.id).toList(),
         cart.getBetList().map((e) => e.selectedTeam.id!).toList(),
         cart.potentialReward,
         double.parse(combinedBetField.text),
-      )) {
-        buildShowDialog(context, "Bravo !", "Vos paris ont été enregistrés");
-        resetCart();
-      } else {
-        buildShowDialog(context, "Oups", "Les paris n'ont pas été sauvegardé.");
-      }
+      ).then((value) {
+        if (value) {
+          buildShowDialog(context, "Bravo !", "Vos paris ont été enregistrés");
+          resetCart();
+        } else {
+          buildShowDialog(context, "Oups", "Les paris n'ont pas été sauvegardé.");
+        }
+      });
     }
   }
 

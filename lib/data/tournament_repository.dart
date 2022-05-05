@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:bet_it/model/upcoming_tournaments.dart';
 import 'package:bet_it/utils/debug_logger.dart';
 import 'package:http/http.dart' as http;

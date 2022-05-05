@@ -1,6 +1,5 @@
 import 'package:bet_it/model/team.dart';
 import 'package:bet_it/model/tournament_start_date.dart';
-import 'package:bet_it/utils/debug_logger.dart';
 
 class Match {
   late int id;
@@ -20,6 +19,8 @@ class Match {
     required this.tournamentName,
     required this.team1,
     required this.team2,
+    required this.coteT1,
+    required this.coteT2,
     this.winner,
   });
 
