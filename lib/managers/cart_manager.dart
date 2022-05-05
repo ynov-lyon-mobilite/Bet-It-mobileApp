@@ -1,6 +1,6 @@
 import 'package:bet_it/global.dart';
 import 'package:bet_it/managers/bet_manager.dart';
-import 'package:bet_it/model/bet.dart';
+import 'package:bet_it/model/bet_model/simple_bet.dart';
 import 'package:bet_it/model/instance_manager.dart';
 import 'package:bet_it/model/match.dart';
 import 'package:bet_it/model/team.dart';
@@ -12,18 +12,19 @@ import 'package:uuid/uuid.dart';
 class CartManager {
   bool isSimpleSelected = true;
 
-  Future<bool> saveCombinedBet(
-      List<String> matchList, List<int> selectedTeamIdList, double totalCote, double mise) async {
+  Future<bool> saveCombinedBet(List<int> matchList, List<int> selectedTeamIdList, double totalCote, double mise) async {
     bool result = false;
+
     if (matchList.isNotEmpty && mise > 0) {
       Map<String, int> betMatchMap = {};
 
       for (var i = 0; i < matchList.length; i++) {
-        betMatchMap.putIfAbsent(matchList[i], () => selectedTeamIdList[i]);
+        betMatchMap.putIfAbsent(matchList[i].toString(), () => selectedTeamIdList[i]);
       }
 
       await InstanceManager.getDatabaseInstance().collection("bets").add(
         {
+          "betid": const Uuid().v4(),
           "isCombined": true,
           "ownerid": InstanceManager.getAuthInstance().currentUser!.uid,
           "selectedteams": betMatchMap,
@@ -31,12 +32,13 @@ class CartManager {
           "totalcote": double.parse(totalCote.toStringAsFixed(2)),
         },
       );
+
       result = true;
     }
     return result;
   }
 
-  Future<bool> saveBetsRangeInDatabase(List<Bet> betList) async {
+  Future<bool> saveBetsRangeInDatabase(List<SimpleBet> betList) async {
     bool insertResult = false;
 
     if (betList.isNotEmpty) {
@@ -44,7 +46,8 @@ class CartManager {
         if (await BetManager.checkBetNotInDB(bet)) {
           InstanceManager.getDatabaseInstance().collection("bets").add(
             {
-              "betid": const Uuid().v4(),
+              "isCombined": false,
+              "betid": bet.betId,
               "ownerid": InstanceManager.getAuthInstance().currentUser!.uid,
               "selectedteamid": bet.selectedTeam.id,
               "matchid": bet.match.id,
@@ -98,7 +101,7 @@ class CartManager {
 
   bool addBetToCart(Team team, Match match, double cote) {
     if (cart.getBetList().where((m) => m.match.id == match.id).isEmpty) {
-      cart.addBet(Bet(selectedTeam: team, match: match, selectedTeamCote: cote));
+      cart.addBet(SimpleBet(selectedTeam: team, match: match, selectedTeamCote: cote));
       return true;
     }
     return false;

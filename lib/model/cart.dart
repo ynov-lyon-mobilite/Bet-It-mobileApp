@@ -1,4 +1,4 @@
-import 'package:bet_it/model/bet.dart';
+import 'package:bet_it/model/bet_model/simple_bet.dart';
 import 'package:bet_it/utils/debug_logger.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -7,10 +7,10 @@ class Cart with ChangeNotifier {
   double totalCote = 0;
   double potentialReward = 0;
 
-  final List<Bet> _betList = [];
-  List<Bet> getBetList() => List.unmodifiable(_betList);
+  final List<SimpleBet> _betList = [];
+  List<SimpleBet> getBetList() => List.unmodifiable(_betList);
 
-  Bet getBetValueWithId(String betId){
+  SimpleBet getBetValueWithId(String betId){
     return _betList.where((b) => b.betId == betId).first;
   }
 
@@ -26,7 +26,7 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-  void addBet(Bet b){
+  void addBet(SimpleBet b){
     _betList.add(b);
     notifyListeners();
   }
