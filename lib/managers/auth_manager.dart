@@ -70,6 +70,7 @@ class AuthManager {
   ) async {
     var instance = InstanceManager.getDatabaseInstance();
     instance.collection("users").doc(uid).set({
+      'uid': uid,
       'name': name,
       'surname': surname,
       'nickname': nickname,
@@ -78,6 +79,7 @@ class AuthManager {
       'birthCity': city,
       'dateOfBirth': ddn,
       'gender': gender,
+      'beties': 1000,
     });
   }
 }
