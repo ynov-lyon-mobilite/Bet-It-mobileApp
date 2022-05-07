@@ -85,16 +85,33 @@ class _HomePageState extends State<HomePage> {
           child: Padding(
             padding: const EdgeInsets.only(right: padding10),
             child: Row(
-              children: const [
-                Text(
-                  "1000",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: fontSize15,
-                  ),
+              children: [
+                FutureBuilder(
+                  future: cartManager.getUserBetiesById(),
+                  builder: (context, snapshot) {
+                    if(snapshot.hasData){
+                      final beties = snapshot.data;
+                      return Text(
+                        "$beties",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize15,
+                        ),
+                      );
+                    } else {
+                      return const Text(
+                        "0",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize15,
+                        ),
+                      );
+                    }
+                  }
                 ),
-                Image(
+                const Image(
                   image: AssetImage("assets/betty.png"),
                   width: 30,
                   height: 30,

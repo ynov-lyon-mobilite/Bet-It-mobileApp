@@ -12,10 +12,18 @@ import 'package:uuid/uuid.dart';
 class CartManager {
   bool isSimpleSelected = true;
 
+  Future<dynamic> getUserBetiesById() async {
+    final user = await InstanceManager.getDatabaseInstance().collection('users').where(
+        'uid', isEqualTo: InstanceManager.getAuthInstance().currentUser!.uid,
+    ).get();
+
+    return user.docs.first.get('beties');
+  }
+
   Future<bool> saveCombinedBet(List<int> matchList, List<int> selectedTeamIdList, double totalCote, double mise) async {
     bool result = false;
 
-    if (matchList.isNotEmpty && mise > 0) {
+    if (matchList.isNotEmpty && mise > 0 && mise <= await getUserBetiesById()) {
       Map<String, int> betMatchMap = {};
 
       for (var i = 0; i < matchList.length; i++) {
@@ -40,21 +48,30 @@ class CartManager {
 
   Future<bool> saveBetsRangeInDatabase(List<SimpleBet> betList) async {
     bool insertResult = false;
+    final userId = InstanceManager.getAuthInstance().currentUser!.uid;
 
     if (betList.isNotEmpty) {
       for (final bet in betList) {
-        if (await BetManager.checkBetNotInDB(bet)) {
+        final userBetiesAmount = await getUserBetiesById();
+
+        if (await BetManager.checkBetNotInDB(bet) && bet.amount > 0 && bet.amount <= userBetiesAmount) {
           InstanceManager.getDatabaseInstance().collection("bets").add(
             {
               "isCombined": false,
               "betid": bet.betId,
-              "ownerid": InstanceManager.getAuthInstance().currentUser!.uid,
+              "ownerid": userId,
               "selectedteamid": bet.selectedTeam.id,
               "matchid": bet.match.id,
               "betiesamount": bet.amount,
               "selectedteamcote": bet.selectedTeamCote,
             },
           );
+          final userDoc = await InstanceManager.getDatabaseInstance().collection('users').where('uid', isEqualTo: userId).get();
+
+          userDoc.docs.first.reference.update({
+            'beties': userBetiesAmount-bet.amount,
+          });
+
           insertResult = true;
         } else {
           insertResult = false;
