@@ -2,12 +2,14 @@ import 'package:bet_it/constants.dart';
 import 'package:bet_it/data/match_repository.dart';
 import 'package:bet_it/data/tournaments_filter_tool.dart';
 import 'package:bet_it/global.dart';
+import 'package:bet_it/model/fantasyLeague.dart';
 import 'package:bet_it/model/instance_manager.dart';
 import 'package:bet_it/model/match.dart';
 import 'package:bet_it/model/user.dart';
 import 'package:bet_it/screens/ticket_page.dart';
 import 'package:bet_it/widgets/match_row.dart';
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -53,16 +55,23 @@ class _HomePageState extends State<HomePage> {
             ),
             resizeToAvoidBottomInset: false,
             body: buildGlobalMatchesAndTournamentsList(matchList),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: Colors.blueAccent,
-              //Floating action button on Scaffold
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyTicketPage()),
-                );
-              },
-              child: const Icon(Icons.receipt_long_rounded),
+            floatingActionButton: Badge(
+              toAnimate: true,
+              shape: BadgeShape.circle,
+              badgeColor: Colors.red,
+              borderRadius: BorderRadius.circular(10),
+              badgeContent: Text(cart.getBetList().length.toString(), style: const TextStyle(color: Colors.white)),
+              child: FloatingActionButton(
+                backgroundColor : Colors.deepPurpleAccent,
+                //Floating action button on Scaffold
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyTicketPage()),
+                  );
+                },
+                child: const Icon(Icons.receipt_long_rounded),
+              ),
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             bottomNavigationBar: buildBottomBar(),
@@ -132,40 +141,33 @@ class _HomePageState extends State<HomePage> {
       notchMargin: 5,
       child: Row(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           IconButton(
             icon: const Icon(
               Icons.local_fire_department,
-              color: Colors.white,
+              color: Colors.purpleAccent,
             ),
             onPressed: () {},
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.print,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          ),
+
           IconButton(
             icon: const Icon(
               Icons.people,
               color: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FantasyLeague()),
+              );
+            },
           ),
         ],
       ),
     );
   }
+
 
   ListView buildGlobalMatchesAndTournamentsList(Map<String, List<Match>> matchList) {
     return ListView.builder(

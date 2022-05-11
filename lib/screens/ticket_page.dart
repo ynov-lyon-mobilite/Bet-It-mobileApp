@@ -42,7 +42,7 @@ class _MyTicketPage extends State<MyTicketPage> with SingleTickerProviderStateMi
         children: [
           const CartPage(),
           const InProgressPage(),
-          FinishedPage(),
+           FinishedPage(),
         ],
       ),
     );

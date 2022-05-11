@@ -49,6 +49,9 @@ class _MatchRowState extends State<MatchRow> {
           SizedBox(
             width: buttonWidth,
             child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent)
+              ),
               onPressed: () {
                 if (!cartManager.addBetToCart(widget.match.team1, widget.match, widget.match.coteT1)) {
                   showDialog(
@@ -88,6 +91,9 @@ class _MatchRowState extends State<MatchRow> {
           SizedBox(
             width: buttonWidth,
             child: ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent)
+              ),
               onPressed: () {
                 if (!cartManager.addBetToCart(widget.match.team2, widget.match, widget.match.coteT2)) {
                   showDialog(

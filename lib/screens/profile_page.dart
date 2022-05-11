@@ -1,6 +1,9 @@
 import 'package:bet_it/constants.dart';
 import 'package:bet_it/model/instance_manager.dart';
+import 'package:bet_it/screens/ticket_page.dart';
 import 'package:flutter/material.dart';
+
+import '../model/account_code.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -58,6 +61,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyTicketPage()),
+                  );
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Row(
@@ -72,6 +81,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               InkWell(
+    onTap: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const AccountCode()),
+    );
+    },
+
                 child: Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Row(
