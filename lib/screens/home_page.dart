@@ -12,6 +12,8 @@ import 'package:bet_it/widgets/match_row.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -158,8 +160,8 @@ class _HomePageState extends State<HomePage> {
           ),
 
           IconButton(
-            icon: const Icon(
-              Icons.people,
+            icon: const FaIcon(
+              FontAwesomeIcons.trophy,
               color: Colors.white,
             ),
             onPressed: () {
